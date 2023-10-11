@@ -1,0 +1,25 @@
+.header {
+  background-color: var(--background);
+}
+.nav {
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.nav_list {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 2);
+  margin: 0;
+  padding: 0;
+}
+.nav_item {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.logo {
+  width: 40%;
+}

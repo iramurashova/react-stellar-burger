@@ -1,0 +1,11 @@
+.menu_item {
+  list-style-type: none;
+}
+
+.menu_link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
