@@ -1,11 +1,18 @@
+// system
 import React from "react";
+import PropTypes from "prop-types";
+
+// components
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// styles
 import styles from "./burger-ingredient.module.css";
+
+// utils
 import { ingredientPropType } from "../../../utils/prop-types";
-import PropTypes from "prop-types";
 
 function BurgerIngredient({ ingredient, count, getIngredientData }) {
   return (

@@ -7,7 +7,10 @@ import PropTypes from "prop-types";
 
 const modal = document.getElementById("modal-root");
 
-function Modal({ title, children, onClose, handleEscape }) {
+function Modal({ title, children, onClose}) {
+  function handleEscape(e) {
+    e.key === "Escape" && onClose();
+  }
   React.useEffect(() => {
     document.addEventListener("keydown", handleEscape);
     return () => {
@@ -15,7 +18,7 @@ function Modal({ title, children, onClose, handleEscape }) {
     };
   }, []);
   return createPortal(
-    <ModalOverlay onClose={onClose}>
+    <>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={`${styles.modal_header} mt-10 ml-10 mr-10`}>
           <h2 className={`${styles.title} text text_type_main-large`}>
@@ -28,12 +31,13 @@ function Modal({ title, children, onClose, handleEscape }) {
         </div>
         {children}
       </div>
-    </ModalOverlay>,
+      <ModalOverlay onClose={onClose}/>
+    </>,
     modal
   );
 }
 
-Modal.PropTypes = {
+Modal.ropTypes = {
   title: PropTypes.string,
   children: PropTypes.element,
   onClose: PropTypes.func.isRequired,

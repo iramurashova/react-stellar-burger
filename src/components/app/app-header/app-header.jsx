@@ -14,28 +14,22 @@ function AppHeader() {
     <header className={`m-10 pt-4 pb-4 ${styles.header}`}>
       <nav className={styles.nav}>
         <ul className={styles.nav_list}>
-          <li className={styles.nav_item}>
-            <MenuItem
-              value="one"
-              icon={
-                <BurgerIcon
-                  type={current === "one" ? "primary" : "secondary"}
-                />
-              }
-              text="Конструктор"
-              textType="text_color_active"
-            />
-          </li>
+          <MenuItem
+            value="one"
+            icon={
+              <BurgerIcon type={current === "one" ? "primary" : "secondary"} />
+            }
+            text="Конструктор"
+            textType="text_color_active"
+          />
 
-          <li className={styles.nav_item}>
-            <MenuItem
-              value="two"
-              icon={
-                <ListIcon type={current === "two" ? "primary" : "secondary"} />
-              }
-              text="Лента заказов"
-            />
-          </li>
+          <MenuItem
+            value="two"
+            icon={
+              <ListIcon type={current === "two" ? "primary" : "secondary"} />
+            }
+            text="Лента заказов"
+          />
         </ul>
         <div className={styles.logo}>
           <Logo />

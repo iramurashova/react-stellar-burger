@@ -1,17 +1,39 @@
-import React from "react";
+// system
+import React, {useState} from "react";
+import PropTypes from "prop-types";
+
+// components
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "./burger-ingredient/burger-ingredient";
+import Modal from "../modal/modal";
+import IngredientDetais from "../ingredient-details/ingredient-details";
+
+// styles
 import styles from "./burger-ingredients.module.css";
-import PropTypes from "prop-types";
+
+// utils
 import { ingredientPropType } from "../../utils/prop-types";
 
-function BurgerIngredients({ ingredients, getIngredientData }) {
+
+function BurgerIngredients({ ingredients}) {
   const [current, setCurrent] = React.useState("one");
+  const [ingredientDetails, setIngredientDetails] = useState({
+    isOpened: false,
+    ingredient: null,
+  });
+  function closeModal() {
+    setIngredientDetails({ isOpened: false, ingredient: null });
+  }
+
+  function getIngredientData({ ingredient }) {
+    setIngredientDetails({ isOpened: true, ingredient: ingredient });
+  }
   return (
+    <>
     <section className={styles.burger_ingredients_container}>
       <h2 className="text text_type_main-large pb-5">Соберите бургер</h2>
 
-      <div style={{ display: "flex" }}>
+      <div className={styles.tabs}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -67,11 +89,20 @@ function BurgerIngredients({ ingredients, getIngredientData }) {
         </div>
       </article>
     </section>
+     {ingredientDetails.isOpened && (
+      <Modal
+        title="Детали ингредиента"
+        onClose={closeModal}
+      >
+        <IngredientDetais ingredient={ingredientDetails.ingredient} />
+      </Modal>
+     
+    )}
+     </>
   );
 }
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-  getIngredientData: PropTypes.func.isRequired,
 };
 export default BurgerIngredients;

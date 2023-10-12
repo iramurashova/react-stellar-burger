@@ -1,7 +1,13 @@
+// system
 import React from "react";
-import styles from "./ingredient-details.module.css";
-import { ingredientPropType } from "../../utils/prop-types";
 import PropTypes from "prop-types";
+
+// styles
+import styles from "./ingredient-details.module.css";
+
+// utils
+import { ingredientPropType } from "../../utils/prop-types";
+
 
 function IngredientDetais({ ingredient }) {
   console.log({ ingredient });
