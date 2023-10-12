@@ -40,7 +40,6 @@ function Modal({ title, children, onClose}) {
 Modal.ropTypes = {
   title: PropTypes.string,
   children: PropTypes.element,
-  onClose: PropTypes.func.isRequired,
-  handleEscape: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 export default Modal;
