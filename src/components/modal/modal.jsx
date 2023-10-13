@@ -19,13 +19,12 @@ function Modal({ title, children, onClose}) {
   }, []);
   return createPortal(
     <>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div className={styles.modal} >
         <div className={`${styles.modal_header} mt-10 ml-10 mr-10`}>
           <h2 className={`${styles.title} text text_type_main-large`}>
             {title}
           </h2>
           <button className={styles.close} onClick={onClose}>
-            {" "}
             <CloseIcon type="primary" />
           </button>
         </div>

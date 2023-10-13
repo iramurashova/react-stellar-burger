@@ -6,7 +6,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./app-header.module.css";
-import MenuItem from "../../menu-item/menu-item";
+import MenuItem from "./menu-item/menu-item";
 
 function AppHeader() {
   const [current, setCurrent] = useState("one");
