@@ -1,16 +1,16 @@
 // system
 import React from "react";
-import PropTypes from "prop-types";
-
+import { useSelector} from 'react-redux';
 // styles
 import styles from "./ingredient-details.module.css";
 
-// utils
-import { ingredientPropType } from "../../utils/prop-types";
+// redux
+import { selectIngredient } from "../../services/reducers/dataReducer/selector";
 
 
-function IngredientDetais({ ingredient }) {
-  console.log({ ingredient });
+function IngredientDetais() {
+ const ingredient = useSelector(selectIngredient)
+
   return (
     <>
       <img
@@ -57,7 +57,5 @@ function IngredientDetais({ ingredient }) {
   );
 }
 
-IngredientDetais.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-};
+
 export default IngredientDetais;

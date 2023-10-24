@@ -1,13 +1,19 @@
 import React from "react";
-import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-details.module.css";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import { selectOrderNumber } from "../../services/reducers/orderReducer/selector";
 
-function OrderDetails({ order }) {
+
+function OrderDetails() {
+  const orderNumber = useSelector(selectOrderNumber);
+  const order = {
+    status: "Ваш заказ начали готовить",
+    message: "Дождитесь готовности на орбитальной станции",
+  };
   return (
     <>
       <h2 className={`text text_type_digits-large mt-4 mb-8 ${styles.number}`}>
-        {order._id}
+        {orderNumber}
       </h2>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <div className={styles.check}></div>
@@ -18,7 +24,5 @@ function OrderDetails({ order }) {
     </>
   );
 }
-OrderDetails.propTypes = {
-  order: PropTypes.objectOf(PropTypes.string),
-};
+
 export default OrderDetails;

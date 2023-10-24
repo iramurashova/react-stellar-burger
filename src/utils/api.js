@@ -5,6 +5,8 @@ function checkResponse(res) {
   }
   return Promise.reject(`Ошибка: ${res.status}`);
 }
-export default function request() {
-  return fetch(domenAdress).then(checkResponse);
+
+export default function request(endPoints, options) {
+
+  return fetch(`${domenAdress}/${endPoints}`, options).then(checkResponse);
 }

@@ -1,9 +1,9 @@
 // system
-import React, { useState, useEffect } from "react";
-
-// utils
-import request from "../../utils/api";
-
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getIngredientsData } from "../../services/reducers/dataReducer/dataReducer";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 // components
 import AppHeader from "./app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -12,50 +12,39 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 // styles
 import styles from "./app.module.css";
 
+//redux
+import { selectIsError, selectIsLoading } from "../../services/reducers/dataReducer/selector";
+
+
+
 function App() {
- 
-  const [apiData, setApiData] = useState([]);
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
 
-  function getApiData() {
-    setIsLoading(true);
-   request()
-      .then((data) => setApiData(data))
-      .catch((err) => {
-        setHasError(true);
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredientsData());
+  }, []);
+
+
+  if (isError) {
+    return <p className="text text_type_main-large">Произошла ошибка</p>;
+  } else if (isLoading) {
+    return <p className="text text_type_main-large">Загрузка...</p>;
+  } else {
+    return (
+      <>
+        <AppHeader />
+        <main className={`pb-10 ${styles.main}`}>
+          <DndProvider backend ={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+          </DndProvider>
+         
+        </main>
+      </>
+    );
   }
-  useEffect(() => getApiData(), []);
-
-  return (
-    <>
-      <AppHeader />
-      <main className={`pb-10 ${styles.main}`}>
-        {isLoading && <p className="text text_type_main-large">Загрузка...</p>}
-        {hasError && (
-          <p className="text text_type_main-large">Произошла ошибка</p>
-        )}
-        {apiData.success && apiData.data.length && (
-          <BurgerIngredients
-            ingredients={apiData.data}
-          />
-        )}
-        {apiData.success && apiData.data.length && (
-          <BurgerConstructor
-            ingredients={apiData.data}
-            
-          />
-        )}
-      </main>
-     
-     
-    </>
-  );
 }
 
 export default App;
