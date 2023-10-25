@@ -24,7 +24,6 @@ function BurgerIngredients() {
   const ingredients = useSelector(selectIngredients);
   const isOpen = useSelector(selectModalOpen);
   const typeOfModal = useSelector(selectTypeOfModal);
-  const dispatch = useDispatch();
   const oneRef = createRef(null);
   const twoRef = createRef(null);
   const threeRef = createRef(null);
