@@ -13,9 +13,10 @@ import BurgerConstructor from "../burger-constructor/burger-constructor";
 import styles from "./app.module.css";
 
 //redux
-import { selectIsError, selectIsLoading } from "../../services/reducers/dataReducer/selector";
-
-
+import {
+  selectIsError,
+  selectIsLoading,
+} from "../../services/reducers/dataReducer/selector";
 
 function App() {
   const isLoading = useSelector(selectIsLoading);
@@ -26,7 +27,6 @@ function App() {
     dispatch(getIngredientsData());
   }, []);
 
-
   if (isError) {
     return <p className="text text_type_main-large">Произошла ошибка</p>;
   } else if (isLoading) {
@@ -36,11 +36,10 @@ function App() {
       <>
         <AppHeader />
         <main className={`pb-10 ${styles.main}`}>
-          <DndProvider backend ={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <DndProvider backend={HTML5Backend}>
+            <BurgerIngredients />
+            <BurgerConstructor />
           </DndProvider>
-         
         </main>
       </>
     );

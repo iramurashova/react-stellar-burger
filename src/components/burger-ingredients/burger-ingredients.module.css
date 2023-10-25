@@ -2,10 +2,7 @@
   max-width: 600px;
   width: 45%;
 }
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .ingredients {
   max-height: 55vh;
   overflow-y: scroll;

@@ -1,21 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./modal-overlay.module.css";
-import { useDispatch } from "react-redux";
-import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
-import { removeIngredientData } from "../../services/reducers/dataReducer/dataReducer";
 
-function ModalOverlay() {
-  const dispatch = useDispatch();
-  const handleClose = () => {
-    dispatch(closeModal());
-    dispatch(removeIngredientData());
-  };
-  return (
-    <div className={styles.overlay} onClick={handleClose}>
-    
-    </div>
-  );
+function ModalOverlay({ handleClose }) {
+  return <div className={styles.overlay} onClick={handleClose}></div>;
 }
 
+ModalOverlay.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};
 
 export default ModalOverlay;

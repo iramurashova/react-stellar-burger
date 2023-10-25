@@ -13,5 +13,4 @@ export const ingredientPropType = PropTypes.shape({
   type: PropTypes.string,
   __v: PropTypes.number,
   _id: PropTypes.string,
-  
 });

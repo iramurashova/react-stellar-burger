@@ -8,22 +8,24 @@ import {
   selectModalOpen,
   selectTypeOfModal,
 } from "../../services/reducers/modalReducer/selector";
+import { removeIngredientData } from "../../services/reducers/dataReducer/dataReducer";
+import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
 
 // components
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredient from "./burger-ingredient/burger-ingredient";
 import Modal from "../modal/modal";
 import IngredientDetais from "../ingredient-details/ingredient-details";
+import Tabs from "./tabs/tabs";
 
 // styles
 import styles from "./burger-ingredients.module.css";
-
 
 function BurgerIngredients() {
   const [current, setCurrent] = useState("one");
   const ingredients = useSelector(selectIngredients);
   const isOpen = useSelector(selectModalOpen);
   const typeOfModal = useSelector(selectTypeOfModal);
+  const dispatch = useDispatch();
   const oneRef = createRef(null);
   const twoRef = createRef(null);
   const threeRef = createRef(null);
@@ -50,23 +52,16 @@ function BurgerIngredients() {
       setCurrent(result[0].name);
     }
   };
-
+  const onClose = () => {
+    dispatch(closeModal());
+    dispatch(removeIngredientData());
+  };
   return (
     <>
       <section className={styles.burger_ingredients_container}>
         <h2 className="text text_type_main-large pb-5">Соберите бургер</h2>
 
-        <div className={styles.tabs}>
-          <Tab value="one" active={current === "one"} onClick={setCurrent}>
-            Булки
-          </Tab>
-          <Tab value="two" active={current === "two"} onClick={setCurrent}>
-            Соусы
-          </Tab>
-          <Tab value="three" active={current === "three"} onClick={setCurrent}>
-            Начинки
-          </Tab>
-        </div>
+        <Tabs current={current} />
         <article
           className={`${styles.ingredients} mt-10`}
           onScroll={handleScroll}
@@ -120,7 +115,7 @@ function BurgerIngredients() {
         </article>
       </section>
       {isOpen && typeOfModal === "ingredient" && (
-        <Modal title="Детали ингредиента">
+        <Modal title="Детали ингредиента" handleClose={onClose}>
           <IngredientDetais />
         </Modal>
       )}

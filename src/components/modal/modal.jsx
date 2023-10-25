@@ -2,29 +2,22 @@
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 //components
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
 //styles
 import styles from "./modal.module.css";
-//redux
-import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
-import { removeIngredientData } from "../../services/reducers/dataReducer/dataReducer";
 
 const modal = document.getElementById("modal-root");
 
-function Modal({ title, children }) {
-  const dispatch = useDispatch();
-  const handleClose = () => {
-    dispatch(closeModal());
-    dispatch(removeIngredientData());
-  };
-  function handleEscape(e) {
-    e.key === "Escape" && handleClose();
-  }
+function Modal({ title, children, handleClose }) {
+
+
   useEffect(() => {
+    const handleEscape = (e) => {
+      e.key === "Escape" && handleClose();
+    };
     document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("keydown", handleEscape);
@@ -43,14 +36,15 @@ function Modal({ title, children }) {
         </div>
         {children}
       </div>
-      <ModalOverlay />
+      <ModalOverlay handleClose={handleClose} />
     </>,
     modal
   );
 }
 
-Modal.ropTypes = {
+Modal.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.node,
+  handleClose: PropTypes.func.isRequired,
 };
 export default Modal;

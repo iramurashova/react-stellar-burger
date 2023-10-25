@@ -1,15 +1,14 @@
 // system
 import React from "react";
-import { useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
 // styles
 import styles from "./ingredient-details.module.css";
 
 // redux
 import { selectIngredient } from "../../services/reducers/dataReducer/selector";
 
-
 function IngredientDetais() {
- const ingredient = useSelector(selectIngredient)
+  const ingredient = useSelector(selectIngredient);
 
   return (
     <>
@@ -56,6 +55,5 @@ function IngredientDetais() {
     </>
   );
 }
-
 
 export default IngredientDetais;

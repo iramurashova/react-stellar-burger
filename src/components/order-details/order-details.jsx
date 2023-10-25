@@ -3,7 +3,6 @@ import styles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 import { selectOrderNumber } from "../../services/reducers/orderReducer/selector";
 
-
 function OrderDetails() {
   const orderNumber = useSelector(selectOrderNumber);
   const order = {

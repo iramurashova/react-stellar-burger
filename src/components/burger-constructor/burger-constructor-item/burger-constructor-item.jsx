@@ -3,7 +3,7 @@ import React from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { ingredientPropType } from "../../../utils/prop-types";
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 
 //sty;es
 import styles from "./burger-constructor-item.module.css";
@@ -20,7 +20,6 @@ import {
   changeIngredientsPlace,
   removeIngredient,
 } from "../../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
-
 
 function BurgerConstructorItem({ ingredient, index }) {
   const dispatch = useDispatch();
@@ -57,7 +56,7 @@ function BurgerConstructorItem({ ingredient, index }) {
   );
 }
 BurgerConstructorItem.propTypes = {
-    ingredient: ingredientPropType.isRequired,
-    index: PropTypes.number,
-  };
+  ingredient: ingredientPropType.isRequired,
+  index: PropTypes.number,
+};
 export default BurgerConstructorItem;

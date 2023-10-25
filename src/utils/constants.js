@@ -1,1 +1,1 @@
-export const domenAdress = 'https://norma.nomoreparties.space/api';
+export const domenAdress = "https://norma.nomoreparties.space/api";

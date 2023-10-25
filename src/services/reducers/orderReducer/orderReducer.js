@@ -1,18 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import request from "../../../utils/api";
+import { postOrder } from "../../../utils/api";
 
-export const postOrderDetails = createAsyncThunk(
-  "order/post",
-  async (ingredients, thunkAPI) => {
-    const data = await request("orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ingredients),
-    });
-
-    return data;
-  }
-);
+export const postOrderDetails = createAsyncThunk("order/post", postOrder);
 const initialState = {
   order: {},
   success: false,
@@ -35,12 +24,13 @@ const orderSlice = createSlice({
         state.order = action.payload.order;
         state.isError = false;
         state.success = action.payload.success;
-      }).addCase(postOrderDetails.rejected, (state, action)=> {
+      })
+      .addCase(postOrderDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.success = false;
         state.isError = true;
-        console.error(action.error)
+        console.error(action.error);
       });
   },
 });
-export const orderReducer = orderSlice.reducer
+export const orderReducer = orderSlice.reducer;

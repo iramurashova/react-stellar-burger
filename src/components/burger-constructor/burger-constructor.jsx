@@ -1,5 +1,5 @@
 // system
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -10,13 +10,16 @@ import {
   selectModalOpen,
   selectTypeOfModal,
 } from "../../services/reducers/modalReducer/selector";
-import { openModal } from "../../services/reducers/modalReducer/modalReducer";
+import { closeModal, openModal } from "../../services/reducers/modalReducer/modalReducer";
 import {
   selectBurgerBun,
   selectBurgerIngredients,
 } from "../../services/reducers/burgerConstructorReducer/selector";
 
-import { addIngredient, removeAllIngredients } from "../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
+import {
+  addIngredient,
+  removeAllIngredients,
+} from "../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
 
 import { postOrderDetails } from "../../services/reducers/orderReducer/orderReducer";
 import {
@@ -50,16 +53,18 @@ function BurgerConstructor() {
   const onOpen = () => {
     dispatch(
       postOrderDetails({
-        ingredients: allIngredients.map((item) => item._id),
+        ingredients: allIngredients.map((item) => item?._id),
       })
     );
-    (!isError) && dispatch(removeAllIngredients());
+    !isError && dispatch(removeAllIngredients());
     dispatch(openModal("order"));
-   
+  };
+  const onClose = () => {
+    dispatch(closeModal());
   };
   const typeOfModal = useSelector(selectTypeOfModal);
- 
-  const [{isHover}, dropTarget] = useDrop({
+
+  const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     drop(ingredient) {
       const newElement = { ...ingredient, _customId: uuidv4() };
@@ -77,13 +82,18 @@ function BurgerConstructor() {
       0
     );
     if (bun) {
-      return sumIngredients + bun?.price * 2;
+      return sumIngredients + bun.price * 2;
     }
     return sumIngredients;
   }, [ingredients, bun]);
   return (
     <>
-      <section className={`'mt-15 pl-4' ${styles.section} ${isHover ? styles.section_empty : ''} `} ref={dropTarget}>
+      <section
+        className={`'mt-15 pl-4' ${styles.section} ${
+          isHover ? styles.section_empty : ""
+        } `}
+        ref={dropTarget}
+      >
         <ul className={styles.list}>
           {bun && (
             <li className={`${styles.item} pl-8 pr-4`}>
@@ -96,15 +106,17 @@ function BurgerConstructor() {
               />
             </li>
           )}
-    { ingredients.length > 0 &&  <ul className={`${styles.middle_list} pr-2`}>
-            {ingredients.map((ingredient, index) => (
-              <BurgerConstructorItem
-                key={ingredient._customId}
-                ingredient={ingredient}
-                index={index}
-              />
-            ))}
-          </ul>}
+          {ingredients.length > 0 && (
+            <ul className={`${styles.middle_list} pr-2`}>
+              {ingredients.map((ingredient, index) => (
+                <BurgerConstructorItem
+                  key={ingredient._customId}
+                  ingredient={ingredient}
+                  index={index}
+                />
+              ))}
+            </ul>
+          )}
 
           {bun && (
             <li className={`${styles.item} pl-8 pr-4`}>
@@ -137,7 +149,7 @@ function BurgerConstructor() {
         )}
       </section>
       {isOpen && typeOfModal === "order" && (
-        <Modal title="">
+        <Modal title="" handleClose = {onClose}> 
           {isLoading && (
             <p className="text text_type_main-medium  mb-15">Загрузка...</p>
           )}

@@ -22,11 +22,11 @@ import { openModal } from "../../../services/reducers/modalReducer/modalReducer"
 
 function BurgerIngredient({ ingredient }) {
   const dispatch = useDispatch();
-  const allIngredients = useSelector((store) => 
-{  const ingredients = store.burgerConstructor.ingredients;
-  const bun = store.burgerConstructor.bun;
-  return [...ingredients, bun]}
-  );
+  const allIngredients = useSelector((store) => {
+    const ingredients = store.burgerConstructor.ingredients;
+    const bun = store.burgerConstructor.bun;
+    return [...ingredients, bun];
+  });
 
   const onOpen = () => {
     dispatch(getIngredientData(ingredient));
@@ -38,7 +38,9 @@ function BurgerIngredient({ ingredient }) {
   });
   const count = useMemo(() => {
     if (allIngredients.length) {
-      return  allIngredients.filter((el) => el?._id === ingredient._id).length || 0;
+      return (
+        allIngredients.filter((el) => el?._id === ingredient._id).length || 0
+      );
     }
   }, [allIngredients]);
 
@@ -61,21 +63,20 @@ function BurgerIngredient({ ingredient }) {
       <h4 className={`text text_type_main-default ${styles.name}`}>
         {ingredient.name}
       </h4>
-      {count>0 &&  <Counter
+      {count > 0 && (
+        <Counter
           count={count}
           size="default"
           extraClass="m-1"
           className={styles.counter}
         />
-       
-      }
+      )}
     </div>
   );
 }
 
 BurgerIngredient.propTypes = {
   ingredient: ingredientPropType.isRequired,
- 
 };
 
 export default BurgerIngredient;

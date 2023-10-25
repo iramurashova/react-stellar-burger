@@ -6,7 +6,6 @@
   flex-direction: column;
   gap: calc(var(--offset-base-size) * 10);
   max-height: 55vh;
-  
 }
 
 .section_empty {
@@ -19,9 +18,7 @@
   gap: calc(var(--offset-base-size) * 4);
   padding-left: 0;
   margin-left: 0;
- 
 }
-
 
 .middle_list {
   display: flex;
@@ -29,7 +26,7 @@
   gap: calc(var(--offset-base-size) * 4);
   padding-left: 0;
   margin-left: 0;
- 
+
   max-height: 35vh;
   overflow-y: scroll;
 }
