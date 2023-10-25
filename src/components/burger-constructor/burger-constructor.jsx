@@ -53,8 +53,9 @@ function BurgerConstructor() {
         ingredients: allIngredients.map((item) => item._id),
       })
     );
+    (!isError) && dispatch(removeAllIngredients());
     dispatch(openModal("order"));
-    dispatch(removeAllIngredients());
+   
   };
   const typeOfModal = useSelector(selectTypeOfModal);
  
