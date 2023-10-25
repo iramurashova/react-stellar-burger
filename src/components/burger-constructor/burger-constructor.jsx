@@ -58,12 +58,15 @@ function BurgerConstructor() {
   };
   const typeOfModal = useSelector(selectTypeOfModal);
  
-  const [, dropTarget] = useDrop({
+  const [{isHover}, dropTarget] = useDrop({
     accept: "ingredient",
     drop(ingredient) {
       const newElement = { ...ingredient, _customId: uuidv4() };
       dispatch(addIngredient(newElement));
     },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
   });
   const amount = useMemo(() => {
     const sumIngredients = ingredients.reduce(
@@ -79,7 +82,7 @@ function BurgerConstructor() {
   }, [ingredients, bun]);
   return (
     <>
-      <section className={`mt-15 pl-4  ${styles.section}`} ref={dropTarget}>
+      <section className={`'mt-15 pl-4' ${styles.section} ${isHover ? styles.section_empty : ''} `} ref={dropTarget}>
         <ul className={styles.list}>
           {bun && (
             <li className={`${styles.item} pl-8 pr-4`}>
@@ -92,7 +95,7 @@ function BurgerConstructor() {
               />
             </li>
           )}
-          <ul className={`${styles.middle_list} pr-2`}>
+    { ingredients.length > 0 &&  <ul className={`${styles.middle_list} pr-2`}>
             {ingredients.map((ingredient, index) => (
               <BurgerConstructorItem
                 key={ingredient._customId}
@@ -100,7 +103,7 @@ function BurgerConstructor() {
                 index={index}
               />
             ))}
-          </ul>
+          </ul>}
 
           {bun && (
             <li className={`${styles.item} pl-8 pr-4`}>

@@ -5,6 +5,12 @@
   display: flex;
   flex-direction: column;
   gap: calc(var(--offset-base-size) * 10);
+  max-height: 55vh;
+  
+}
+
+.section_empty {
+  border: 1px solid #8585ad;
 }
 
 .list {
@@ -13,8 +19,9 @@
   gap: calc(var(--offset-base-size) * 4);
   padding-left: 0;
   margin-left: 0;
-  max-height: 696px;
+ 
 }
+
 
 .middle_list {
   display: flex;
@@ -22,7 +29,8 @@
   gap: calc(var(--offset-base-size) * 4);
   padding-left: 0;
   margin-left: 0;
-  max-height: 368px;
+ 
+  max-height: 35vh;
   overflow-y: scroll;
 }
 .middle_list::-webkit-scrollbar {
