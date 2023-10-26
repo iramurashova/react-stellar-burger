@@ -1,17 +1,23 @@
-import React from "react";
+//system
+import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./modal.module.css";
-import ModalOverlay from "../modal-overlay/modal-overlay";
 import PropTypes from "prop-types";
+//components
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalOverlay from "../modal-overlay/modal-overlay";
+
+//styles
+import styles from "./modal.module.css";
 
 const modal = document.getElementById("modal-root");
 
-function Modal({ title, children, onClose}) {
-  function handleEscape(e) {
-    e.key === "Escape" && onClose();
-  }
-  React.useEffect(() => {
+function Modal({ title, children, handleClose }) {
+
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      e.key === "Escape" && handleClose();
+    };
     document.addEventListener("keydown", handleEscape);
     return () => {
       document.removeEventListener("keydown", handleEscape);
@@ -19,26 +25,26 @@ function Modal({ title, children, onClose}) {
   }, []);
   return createPortal(
     <>
-      <div className={styles.modal} >
+      <div className={styles.modal}>
         <div className={`${styles.modal_header} mt-10 ml-10 mr-10`}>
           <h2 className={`${styles.title} text text_type_main-large`}>
             {title}
           </h2>
-          <button className={styles.close} onClick={onClose}>
+          <button className={styles.close} onClick={handleClose}>
             <CloseIcon type="primary" />
           </button>
         </div>
         {children}
       </div>
-      <ModalOverlay onClose={onClose}/>
+      <ModalOverlay handleClose={handleClose} />
     </>,
     modal
   );
 }
 
-Modal.ropTypes = {
+Modal.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.element,
-  onClose: PropTypes.func.isRequired
+  children: PropTypes.node,
+  handleClose: PropTypes.func.isRequired,
 };
 export default Modal;
