@@ -53,7 +53,7 @@ function BurgerConstructor() {
   const onOpen = () => {
     dispatch(
       postOrderDetails({
-        ingredients: allIngredients.map((item) => item?._id),
+        ingredients: allIngredients.map((item) => item._id),
       })
     );
     !isError && dispatch(removeAllIngredients());
