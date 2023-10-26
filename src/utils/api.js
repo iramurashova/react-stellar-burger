@@ -11,23 +11,16 @@ const request = (endPoints, options) => {
 };
 
 export const fetchIngredients = async (_, thunkAPI) => {
-  try {
-    const data = await request("ingredients");
-    return data.data;
-  } catch (err) {
-    return thunkAPI.rejectWithValue(`ошибка при запросе: ${err.message}`);
-  }
+  return request("ingredients").then((res) => res.data);
 };
 
 export const postOrder = async (ingredients, thunkAPI) => {
-  try {
-    const data = await request("orders", {
+
+    return request("orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(ingredients),
     });
-    return data;
-  } catch (err) {
-    return thunkAPI.rejectWithValue(`ошибка при отправке: ${err.message}`);
-  }
+  
+
 };
