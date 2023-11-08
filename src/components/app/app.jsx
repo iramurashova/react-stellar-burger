@@ -9,6 +9,12 @@ import AppHeader from "./app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 
+//pages
+import LoginPage from "../../pages/loginPage/login";
+import RegisterPage from "../../pages/registerPage/register";
+import ForgotPasswordPage from "../../pages/forgotPasswordPage/forgotPassword";
+import ResetPasswordPage from "../../pages/resetPasswordPage/resetPassword";
+
 // styles
 import styles from "./app.module.css";
 
@@ -17,6 +23,8 @@ import {
   selectIsError,
   selectIsLoading,
 } from "../../services/reducers/dataReducer/selector";
+import ProfilePage from "../../pages/profile/profile";
+
 
 function App() {
   const isLoading = useSelector(selectIsLoading);
@@ -36,10 +44,15 @@ function App() {
       <>
         <AppHeader />
         <main className={`pb-10 ${styles.main}`}>
-          <DndProvider backend={HTML5Backend}>
+          <ProfilePage/>
+          {/* <ResetPasswordPage/>
+          <ForgotPasswordPage/>
+           <LoginPage /> 
+          <RegisterPage />  */}
+          {/* <DndProvider backend={HTML5Backend}>
             <BurgerIngredients />
             <BurgerConstructor />
-          </DndProvider>
+          </DndProvider> */}
         </main>
       </>
     );
