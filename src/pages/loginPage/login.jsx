@@ -79,4 +79,3 @@ function LoginPage() {
 export default LoginPage;
 
 
-//Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGNiNmY0YzJjYzYxMDAxYjNkNjlmYSIsImlhdCI6MTY5OTYwODg3OCwiZXhwIjoxNjk5NjEwMDc4fQ.MtdYpGeVqc7gGuq0ZtEX7iRXYhOBzLagE5ZKPJVL2r4

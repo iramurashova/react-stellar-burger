@@ -79,10 +79,5 @@ function RegisterPage() {
 export default RegisterPage;
 
 
-// accessToken
-// : 
-// "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGNiNmY0YzJjYzYxMDAxYjNkNjlmYSIsImlhdCI6MTY5OTUyNjM4OCwiZXhwIjoxNjk5NTI3NTg4fQ.Ys-ctyVYaC5SP4xl6ffVgnzWJqoAJUKs89EGWT-gn28"
-// refreshToken
-// : 
-// "0c51fdef71604436bc598ba5bb1292f41e46b851abbe52e3aa345f701ce16b07b57c2feb5375bf5d"
+
  
