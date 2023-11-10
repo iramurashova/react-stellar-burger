@@ -2,13 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { store } from "./services/store";
 import { Provider } from "react-redux";
+import { BrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

@@ -2,41 +2,59 @@ import React, { useRef, useState } from "react";
 import styles from "./forgotPassword.module.css";
 import {
   Button,
+  EmailInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useForm } from "../../hooks/useForm";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchForgotPassword } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { setEmailChecked } from "../../services/reducers/userReducer/userReducer";
 
 function ForgotPasswordPage() {
-  const [value, setValue] = useState("");
-  const inputRef = useRef(null);
+  const { values, handleChange } = useForm({ email: "" });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchForgotPassword(values)).then((res) =>
+      dispatch(setEmailChecked(res.payload.success))
+    );
+    navigate("/reset-password");
+  };
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <h2 className={`text text_type_main-medium text_color_primary`}>
           Восстановление пароля
         </h2>
 
-        <Input
-          type={"email"}
-          placeholder={"Укажите e-mail"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"login"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
+        <EmailInput
+          onChange={handleChange}
+          value={values.email}
+          name={"email"}
+          isIcon={false}
+          placeholder="Укажите e-mail"
         />
 
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Восстановить
         </Button>
-      </div>
+      </form>
       <div className={styles.summary}>
         <p className={`text text_type_main-default text_color_inactive`}>
           Вспомнили пароль?
         </p>
-        <a className={`text text_type_main-default text_color_accent`}>Войти</a>
+        <Link to="/login">
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            extraClass={styles.button}
+          >
+            Войти
+          </Button>
+        </Link>
       </div>
     </div>
   );

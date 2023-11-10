@@ -16,16 +16,12 @@
 }
 
 .link {
+  text-decoration: none;
   display: flex;
   align-items: center;
   height: 64px;
 }
 
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--offset-base-size) * 6);
-}
 
 .description {
     opacity: 0.4;

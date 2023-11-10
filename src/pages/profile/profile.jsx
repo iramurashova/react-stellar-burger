@@ -1,69 +1,42 @@
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
+import { Link, NavLink, Outlet, useMatch } from "react-router-dom";
+import { fetchLogout } from "../../utils/api";
 
 function ProfilePage() {
-  const [value, setValue] = useState("test");
 
-  const inputRef = useRef(null);
+  const setActive = ({isActive}) => {
+    return `${styles.link} text_type_main-medium ${
+      isActive ? "text_color_primary" : "text_color_inactive"
+    }`;
+  };
+  const dispatch = useDispatch();
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(fetchLogout());
+};
+
   return (
     <div className={`${styles.container}`}>
       <div className={styles.column}>
-        <nav className = {styles.menu}>
-        <a className={`${styles.link} text_type_main-medium`}>Профиль</a>
-        <a className={`${styles.link} text_type_main-medium text_color_inactive`}>
-          История заказов
-        </a>
-        <a className={`${styles.link} text_type_main-medium text_color_inactive`}>
-          Выход
-        </a>
+        <nav className={styles.menu}>
+          <NavLink className={setActive} to="/profile" end>
+            Профиль
+          </NavLink>
+          <NavLink className={setActive} to="orders" end >
+            История заказов
+          </NavLink>
+          <NavLink className={setActive} to="/" onClick={logout} end>
+            Выход
+          </NavLink>
         </nav>
-        <p className={`text text_type_main-default text_color_inactive ${styles.description}`}>В этом разделе вы можете изменить свои персональные данные</p>
+        <p
+          className={`text text_type_main-default text_color_inactive ${styles.description}`}
+        >
+          В этом разделе вы можете изменить свои персональные данные
+        </p>
       </div>
-      <div className={styles.inputs}>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"name"}
-          error={false}
-          ref={inputRef}
-          icon={"EditIcon"}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
-        />
-        <Input
-          type={"email"}
-          placeholder={"E-mail"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"login"}
-          error={false}
-          icon={"EditIcon"}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
-      
-        />
-
-        <Input
-          type={"password"}
-          placeholder={"Пароль"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"password"}
-          icon={"EditIcon"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
-         
-        />
-      </div>
+      <Outlet />
     </div>
   );
 }

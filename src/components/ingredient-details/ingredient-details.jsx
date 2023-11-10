@@ -5,11 +5,15 @@ import { useSelector } from "react-redux";
 import styles from "./ingredient-details.module.css";
 
 // redux
-import { selectIngredient } from "../../services/reducers/dataReducer/selector";
+import { selectIngredientById } from "../../services/reducers/dataReducer/selector";
+import { useParams } from "react-router-dom";
 
 function IngredientDetais() {
-  const ingredient = useSelector(selectIngredient);
 
+  const {id} = useParams()
+  const ingredient = useSelector(selectIngredientById(id));
+  console.log(id)
+  if (!ingredient) return null;
   return (
     <>
       <img

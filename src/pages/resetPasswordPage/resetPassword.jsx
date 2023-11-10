@@ -3,53 +3,71 @@ import styles from "./resetPassword.module.css";
 import {
   Button,
   Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useForm } from "../../hooks/useForm";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { fetchResetPassword } from "../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { selectEmailChecked } from "../../services/reducers/userReducer/selector";
 
 function ResetPasswordPage() {
-  const [value, setValue] = useState("");
-  const inputRef = useRef(null);
+  const { values, handleChange } = useForm({
+    password: "",
+    token: "",
+  });
+  const isEmailChecked = useSelector(selectEmailChecked)
+  console.log(isEmailChecked);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(fetchResetPassword(values));
+    {navigate('/')}
+  };
+  if (!isEmailChecked) {
+    return <Navigate to="/forgot-password" />;
+  }
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <h2 className={`text text_type_main-medium text_color_primary`}>
           Восстановление пароля
         </h2>
 
-        <Input
-          type={"password"}
-          placeholder={"Введите новый пароль"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
+        <PasswordInput
+          onChange={handleChange}
+          value={values.password}
           name={"password"}
-          icon={"ShowIcon"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
         />
         <Input
           type={"text"}
           placeholder={"Введите код из письма"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"code"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
+          onChange={handleChange}
+          value={values.token}
+          name={"token"}
           size={"default"}
-          extraClass="ml-1"
         />
 
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="submit" type="primary" size="medium">
           Сохранить
         </Button>
-      </div>
+      </form>
       <div className={styles.summary}>
         <p className={`text text_type_main-default text_color_inactive`}>
           Вспомнили пароль?
         </p>
-        <a className={`text text_type_main-default text_color_accent`}>Войти</a>
+        <Link>
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            extraClass={styles.button}
+          >
+            Войти
+          </Button>
+        </Link>
       </div>
     </div>
   );

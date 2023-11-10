@@ -1,64 +1,82 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import styles from "./login.module.css";
 import {
   Button,
-  Input,
+  EmailInput,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Link } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
+import { useDispatch } from "react-redux";
+import { fetchLogin } from "../../utils/api";
 function LoginPage() {
-  const [value, setValue] = useState("");
-  const inputRef = useRef(null);
+  const dispatch = useDispatch();
+  const { values, handleChange } = useForm({
+    email: "",
+    password: "",
+  });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(fetchLogin(values));
+  };
   return (
     <div className={styles.container}>
-      <div className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <h2 className={`text text_type_main-medium text_color_primary`}>
           Вход
         </h2>
-        <Input
-          type={"email"}
-          placeholder={"E-mail"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"login"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
+        <EmailInput
+          onChange={handleChange}
+          value={values.email}
+          name={"email"}
+          isIcon={false}
           extraClass="ml-1"
         />
 
-        <Input
-          type={"password"}
-          placeholder={"Пароль"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
+        <PasswordInput
+          onChange={handleChange}
+          value={values.password}
           name={"password"}
-          icon={"ShowIcon"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
           extraClass="ml-1"
         />
-        <Button htmlType="button" type="primary" size="medium">
+
+        <Button htmlType="submit" type="primary" size="medium">
           Войти
         </Button>
-      </div>
+      </form>
       <div className={styles.summary}>
         <p className={`text text_type_main-default text_color_inactive`}>
           Вы — новый пользователь?
         </p>
-        <a className={`text text_type_main-default text_color_accent`}>
-          Зарегистрироваться
-        </a>
+        <Link to="/register">
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            extraClass={styles.button}
+          >
+            Зарегистрироваться
+          </Button>
+        </Link>
         <p className={`text text_type_main-default text_color_inactive`}>
           Забыли пароль?
         </p>
-        <a className={`text text_type_main-default text_color_accent`}>
-          Восстановить пароль
-        </a>
+        <Link to="/forgot-password">
+          <Button
+            htmlType="button"
+            type="secondary"
+            size="medium"
+            extraClass={styles.button}
+          >
+            Восстановить пароль
+          </Button>
+        </Link>
       </div>
     </div>
   );
 }
 
 export default LoginPage;
+
+
+//Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGNiNmY0YzJjYzYxMDAxYjNkNjlmYSIsImlhdCI6MTY5OTYwODg3OCwiZXhwIjoxNjk5NjEwMDc4fQ.MtdYpGeVqc7gGuq0ZtEX7iRXYhOBzLagE5ZKPJVL2r4
