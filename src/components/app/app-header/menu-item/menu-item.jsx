@@ -1,21 +1,22 @@
+import { NavLink, useMatch } from "react-router-dom";
 import styles from "./menu-item.module.css";
 import PropTypes from "prop-types";
 
-function MenuItem({ icon, text, textType }) {
+function MenuItem({ icon, text, path }) {
+
+  const setActive = ({ isActive }) => {
+    return `${styles.menu_link} ${isActive ? "text_color_primary" : "text_color_inactive"}`;
+  };
   return (
     <li className={`${styles.menu_item} pt-4 pb-4 pl-5 pr-5`}>
-      <a href="#" className={styles.menu_link}>
+      <NavLink to={path} className={setActive}>
         {icon}
         <p
-          className={`text text_type_main-default ${
-            textType === "text_color_active"
-              ? "text_color_primary"
-              : "text_color_inactive"
-          }`}
+          className={`text text_type_main-default`}
         >
           {text}
         </p>
-      </a>
+      </NavLink>
     </li>
   );
 }

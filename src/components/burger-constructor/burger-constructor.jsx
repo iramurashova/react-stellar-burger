@@ -40,6 +40,8 @@ import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-
 
 // styles
 import styles from "./burger-constructor.module.css";
+import {  useNavigate } from "react-router-dom";
+import { selectUser } from "../../services/reducers/userReducer/selector";
 
 function BurgerConstructor() {
   const isOpen = useSelector(selectModalOpen);
@@ -50,14 +52,20 @@ function BurgerConstructor() {
   const isError = useSelector(selectOrderIsError);
   const success = useSelector(selectSuccess);
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const navigate = useNavigate()
   const onOpen = () => {
-    dispatch(
+    if (user)
+   { dispatch(
       postOrderDetails({
         ingredients: allIngredients.map((item) => item._id),
       })
     );
     !isError && dispatch(removeAllIngredients());
     dispatch(openModal("order"));
+  } else {
+navigate('/login')
+  }
   };
   const onClose = () => {
     dispatch(closeModal());
@@ -137,7 +145,7 @@ function BurgerConstructor() {
 
               <CurrencyIcon type="primary" />
             </div>
-            <Button
+           <Button
               htmlType="button"
               type="primary"
               size="large"
@@ -145,6 +153,7 @@ function BurgerConstructor() {
             >
               Оформить заказ
             </Button>
+           
           </div>
         )}
       </section>

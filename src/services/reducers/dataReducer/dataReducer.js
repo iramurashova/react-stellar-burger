@@ -33,7 +33,6 @@ const dataSlice = createSlice({
         state.isError = false;
       })
       .addCase(getIngredientsData.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.ingredientsFromApi = action.payload;
         state.isLoading = false;
         state.isError = false;

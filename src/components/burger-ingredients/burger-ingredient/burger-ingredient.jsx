@@ -19,8 +19,10 @@ import { ingredientPropType } from "../../../utils/prop-types";
 //redux
 import { getIngredientData } from "../../../services/reducers/dataReducer/dataReducer";
 import { openModal } from "../../../services/reducers/modalReducer/modalReducer";
+import { Link, useLocation } from "react-router-dom";
 
 function BurgerIngredient({ ingredient }) {
+  const location = useLocation();
   const dispatch = useDispatch();
   const allIngredients = useSelector((store) => {
     const ingredients = store.burgerConstructor.ingredients;
@@ -45,8 +47,11 @@ function BurgerIngredient({ ingredient }) {
   }, [allIngredients]);
 
   return (
-    <div
-      className={styles.burger_ingredient}
+   
+    <Link
+    state = {{background: location}}
+    to={`ingredients/${ingredient._id}`}
+      className={`text_color_primary ${styles.burger_ingredient}`}
       key={ingredient._id}
       onClick={onOpen}
       ref={dragRef}
@@ -71,7 +76,7 @@ function BurgerIngredient({ ingredient }) {
           className={styles.counter}
         />
       )}
-    </div>
+    </Link>
   );
 }
 

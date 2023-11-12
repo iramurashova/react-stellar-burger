@@ -6,6 +6,8 @@
   gap: var(--offset-base-size);
   width: 272px;
   cursor: pointer;
+  text-decoration: none;
+  
 }
 .image {
   width: 240px;
