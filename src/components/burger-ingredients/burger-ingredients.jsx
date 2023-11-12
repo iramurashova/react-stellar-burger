@@ -14,7 +14,7 @@ import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
 // components
 import BurgerIngredient from "./burger-ingredient/burger-ingredient";
 import Modal from "../modal/modal";
-import IngredientDetais from "../ingredient-details/ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import Tabs from "./tabs/tabs";
 
 // styles

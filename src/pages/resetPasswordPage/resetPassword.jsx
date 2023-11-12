@@ -26,20 +26,22 @@ function ResetPasswordPage() {
     dispatch(fetchResetPassword(values));
     {navigate('/')}
   };
+
   if (!isEmailChecked) {
     return <Navigate to="/forgot-password" />;
   }
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2 className={`text text_type_main-medium text_color_primary`}>
+        <h1 className={`text text_type_main-medium text_color_primary`}>
           Восстановление пароля
-        </h2>
+        </h1>
 
         <PasswordInput
           onChange={handleChange}
           value={values.password}
           name={"password"}
+          autoComplete="new-password"
         />
         <Input
           type={"text"}
@@ -58,16 +60,9 @@ function ResetPasswordPage() {
         <p className={`text text_type_main-default text_color_inactive`}>
           Вспомнили пароль?
         </p>
-        <Link>
-          <Button
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            extraClass={styles.button}
-          >
-            Войти
-          </Button>
-        </Link>
+       
+        <Link to= '/login' className={`text text_type_main-default text_color_accent ${styles.button}`}>Войти</Link>
+        
       </div>
     </div>
   );

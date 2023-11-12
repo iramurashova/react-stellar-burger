@@ -27,9 +27,9 @@ function Modal({ title, children, handleClose }) {
     <>
       <div className={styles.modal}>
         <div className={`${styles.modal_header} mt-10 ml-10 mr-10`}>
-          <h2 className={`${styles.title} text text_type_main-large`}>
+          <h1 className={`${styles.title} text text_type_main-large`}>
             {title}
-          </h2>
+          </h1>
           <button className={styles.close} onClick={handleClose}>
             <CloseIcon type="primary" />
           </button>

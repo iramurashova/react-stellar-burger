@@ -35,6 +35,7 @@ function ForgotPasswordPage() {
           name={"email"}
           isIcon={false}
           placeholder="Укажите e-mail"
+          autoComplete="email"
         />
 
         <Button htmlType="submit" type="primary" size="medium">
@@ -45,15 +46,11 @@ function ForgotPasswordPage() {
         <p className={`text text_type_main-default text_color_inactive`}>
           Вспомнили пароль?
         </p>
-        <Link to="/login">
-          <Button
-            htmlType="button"
-            type="secondary"
-            size="medium"
-            extraClass={styles.button}
-          >
-            Войти
-          </Button>
+        <Link
+          to="/login"
+          className={`text text_type_main-default text_color_accent ${styles.button}` }
+        >
+          Войти
         </Link>
       </div>
     </div>

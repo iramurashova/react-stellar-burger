@@ -8,11 +8,10 @@ import styles from "./ingredient-details.module.css";
 import { selectIngredientById } from "../../services/reducers/dataReducer/selector";
 import { useParams } from "react-router-dom";
 
-function IngredientDetais() {
+function IngredientDetails() {
 
   const {id} = useParams()
   const ingredient = useSelector(selectIngredientById(id));
-  console.log(id)
   if (!ingredient) return null;
   return (
     <>
@@ -60,4 +59,4 @@ function IngredientDetais() {
   );
 }
 
-export default IngredientDetais;
+export default IngredientDetails;

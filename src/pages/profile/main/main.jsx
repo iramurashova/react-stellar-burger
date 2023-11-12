@@ -79,6 +79,7 @@ const onBlur = () => {
         disabled={fieldDisabled}
         onIconClick={onIconClick}
         onBlur={onBlur}
+        autoComplete="username"
         
       />
       <EmailInput
@@ -87,6 +88,7 @@ const onBlur = () => {
         name={"email"}
         placeholder="Логин"
         isIcon={true}
+        autoComplete="email"
       />
 
       <PasswordInput
@@ -94,6 +96,7 @@ const onBlur = () => {
         value={values.password}
         name={"password"}
         icon ={"EditIcon"}
+        autoComplete="new-password"
       />
 
       {isEdit && (

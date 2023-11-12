@@ -19,7 +19,7 @@ import { OnlyAuth, OnlyUnAuth } from "../protectedRoute/protectedroute";
 import NotFoundPage from "../../pages/notFound/notFound";
 import IngredientPage from "../../pages/ingredient/ingredient";
 import Modal from "../modal/modal";
-import IngredientDetais from "../ingredient-details/ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +76,7 @@ function App() {
             <Route
           path="ingredients/:id" element = {
             <Modal title="Детали ингредиента" handleClose={onClose}>
-            <IngredientDetais />
+            <IngredientDetails />
           </Modal>
           }/>
         </Routes>
