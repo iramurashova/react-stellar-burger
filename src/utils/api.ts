@@ -5,22 +5,38 @@ import {
 } from "../services/reducers/userReducer/userReducer";
 import { domenAdress } from "./constants";
 import { deleteCookie, getCookie, setCookie } from "./cookie";
-const checkResponse = (res) => {
+import { IValues, TIngredient } from "./types";
+import { useDispatch } from "react-redux";
+type TRequestOptions = RequestInit & {
+  headers: Record<string, string>;
+};
+type TIngredients = {
+  ingredients: string[]
+}
+
+const checkResponse = (res: Response) => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`);
 };
 
-const request = (endPoints, options) => {
+const request = (endPoints:string, options:TRequestOptions) => {
   return fetch(`${domenAdress}/${endPoints}`, options).then(checkResponse);
 };
 
-export const fetchIngredients = async (_, thunkAPI) => {
-  return request("ingredients").then((res) => res.data);
+export const fetchIngredients = async (_: any, thunkAPI: any) => {
+  return request("ingredients", {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json",
+    }},).then((res) => res.data);
 };
 
-export const postOrder = async (ingredients, thunkAPI) => {
+export const postOrder = async (ingredients: TIngredients, thunkAPI:any) => {
   return request("orders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -39,18 +55,18 @@ const refreshToken = () => {
   }).then(checkResponse);
 };
 
-const fetchWithRefresh = async (url, options) => {
+const fetchWithRefresh = async (url:string, options:TRequestOptions) => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
-  } catch (err) {
+  } catch (err:any) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
       setCookie("refreshToken", refreshData.refreshToken);
-      setCookie.setItem("accessToken", refreshData.accessToken);
+      setCookie("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options);
       return await checkResponse(res);
@@ -61,12 +77,13 @@ const fetchWithRefresh = async (url, options) => {
 };
 
 export const fetchGetUser = () => {
+  //@ts-ignore
   return (dispatch) => {
     return fetchWithRefresh(`${domenAdress}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: getCookie("accessToken"),
+        authorization : getCookie("accessToken") as string,
       },
     }).then((res) => {
       if (res.success) {
@@ -77,9 +94,10 @@ export const fetchGetUser = () => {
     });
   };
 };
+
 export const fetchRegister = createAsyncThunk(
   "auth/register",
-  async (values) => {
+  async (values: IValues) => {
     const res = await request("auth/register", {
       method: "POST",
       cache: "no-cache",
@@ -101,7 +119,7 @@ export const fetchRegister = createAsyncThunk(
   }
 );
 
-export const fetchLogin = createAsyncThunk("auth/login", async (values) => {
+export const fetchLogin = createAsyncThunk("auth/login", async (values: IValues) => {
   const res = await request("auth/login", {
     method: "POST",
     cache: "no-cache",
@@ -139,14 +157,14 @@ export const fetchLogout = createAsyncThunk("auth/logout", async () => {
 });
 
 export const checkUserAuth = () => {
+  //@ts-ignore
   return (dispatch) => {
     if (getCookie("accessToken")) {
       dispatch(fetchGetUser())
-        .catch((error) => {
+        .catch(() => {
           deleteCookie("accessToken");
           deleteCookie("refreshToken");
           dispatch(setUser(null));
-          console.log(error);
         })
         .finally(() => dispatch(setAuthChecked(true)));
     } else {
@@ -157,13 +175,13 @@ export const checkUserAuth = () => {
 
 export const fetchUpdateUser = createAsyncThunk(
   "auth/updateUser",
-  async (values) => {
+  async (values: IValues) => {
     const token = getCookie("accessToken");
     const res = await fetchWithRefresh(`${domenAdress}/auth/user`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken"),
+        authorization: getCookie("accessToken") as string,
       },
       body: JSON.stringify({
         name: values.name,
@@ -176,7 +194,7 @@ export const fetchUpdateUser = createAsyncThunk(
 
 export const fetchForgotPassword = createAsyncThunk(
   "auth/forgotPassword",
-  async (values) => {
+  async (values: IValues) => {
     return request("password-reset", {
       method: "POST",
       cache: "no-cache",
@@ -194,7 +212,7 @@ export const fetchForgotPassword = createAsyncThunk(
 );
 export const fetchResetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async (values) => {
+  async (values:IValues) => {
     return request("password-reset/reset", {
       method: "POST",
       cache: "no-cache",

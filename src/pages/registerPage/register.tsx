@@ -4,30 +4,31 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { FC } from "react";
 import styles from "./register.module.css";
 import { useForm } from "../../hooks/useForm";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchRegister } from "../../utils/api";
 
-function RegisterPage() {
+const RegisterPage: FC = () => {
   const dispatch = useDispatch();
-  
+
   const { values, handleChange, setValues } = useForm({
     name: "",
     email: "",
     password: "",
   });
-  const handleRegister = (e) => {
+  const handleRegister = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(fetchRegister(values));
     setValues({
-        name: '',
-        email: '',
-        password: ''
-    })
-}
+      name: "",
+      email: "",
+      password: "",
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -66,15 +67,16 @@ function RegisterPage() {
         <p className={`text text_type_main-default text_color_inactive`}>
           Уже зарегистрированы?
         </p>
-        
-          <Link to='/login' className={`text text_type_main-default text_color_accent ${styles.button}`}>Войти</Link>
+
+        <Link
+          to="/login"
+          className={`text text_type_main-default text_color_accent ${styles.button}`}
+        >
+          Войти
+        </Link>
       </div>
     </div>
   );
-}
+};
 
 export default RegisterPage;
-
-
-
- 

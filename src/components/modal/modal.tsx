@@ -1,5 +1,5 @@
 //system
-import React, { useEffect } from "react";
+import React, { FC, ReactComponentElement, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import PropTypes from "prop-types";
 //components
@@ -9,14 +9,20 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 //styles
 import styles from "./modal.module.css";
 
-const modal = document.getElementById("modal-root");
+const modal = document.getElementById("modal-root") as HTMLElement;
+type TModalProps = {
+  title: string,
+  children: ReactNode,
+  handleClose: ()=>void
 
-function Modal({ title, children, handleClose }) {
+}
+
+const Modal:FC<TModalProps> = ({ title, children, handleClose }) => {
 
 
   useEffect(() => {
-    const handleEscape = (e) => {
-      e.key === "Escape" && handleClose();
+    const handleEscape = (event:KeyboardEvent) => {
+      event.key === "Escape" && handleClose();
     };
     document.addEventListener("keydown", handleEscape);
     return () => {
@@ -38,13 +44,9 @@ function Modal({ title, children, handleClose }) {
       </div>
       <ModalOverlay handleClose={handleClose} />
     </>,
-    modal
+     modal
   );
 }
 
-Modal.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.node,
-  handleClose: PropTypes.func.isRequired,
-};
+
 export default Modal;

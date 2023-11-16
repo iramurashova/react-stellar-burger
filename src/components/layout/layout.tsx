@@ -1,5 +1,5 @@
 // system
-import React, { useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import {Outlet } from 'react-router-dom'
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredientsData } from "../../services/reducers/dataReducer/dataReducer";
@@ -18,12 +18,13 @@ import {
   selectIsLoading,
 } from "../../services/reducers/dataReducer/selector";
 
-function Layout() {
-    const isLoading = useSelector(selectIsLoading);
-    const isError = useSelector(selectIsError);
+const Layout:FC = () => {
+    const isLoading = useSelector(selectIsLoading) as boolean;
+    const isError = useSelector(selectIsError) as boolean;
   
     const dispatch = useDispatch();
     useEffect(() => {
+      //@ts-ignore
       dispatch(getIngredientsData());
     }, []);
   

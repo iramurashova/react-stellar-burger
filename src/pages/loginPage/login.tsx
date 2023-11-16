@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./login.module.css";
 import {
   Button,
@@ -9,14 +9,15 @@ import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { useDispatch } from "react-redux";
 import { fetchLogin } from "../../utils/api";
-function LoginPage() {
+const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(fetchLogin(values));
   };
   return (
@@ -48,8 +49,11 @@ function LoginPage() {
         <p className={`text text_type_main-default text_color_inactive`}>
           Вы — новый пользователь?
         </p>
-        <Link to="/register" className={`text text_type_main-default text_color_accent ${styles.button}`}>
-            Зарегистрироваться
+        <Link
+          to="/register"
+          className={`text text_type_main-default text_color_accent ${styles.button}`}
+        >
+          Зарегистрироваться
         </Link>
         <p className={`text text_type_main-default text_color_inactive`}>
           Забыли пароль?
@@ -63,6 +67,6 @@ function LoginPage() {
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;

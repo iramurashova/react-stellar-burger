@@ -2,19 +2,19 @@ import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
 import { Link, NavLink, Outlet, useMatch } from "react-router-dom";
 import { fetchLogout } from "../../utils/api";
+import { FC, MouseEventHandler } from "react";
 
-function ProfilePage() {
-
-  const setActive = ({isActive}) => {
+const ProfilePage: FC = () => {
+  const setActive = ({ isActive }: { isActive: boolean }) => {
     return `${styles.link} text_type_main-medium ${
       isActive ? "text_color_primary" : "text_color_inactive"
     }`;
   };
   const dispatch = useDispatch();
-  const logout = (e) => {
+  const logout: MouseEventHandler = (e) => {
     e.preventDefault();
     dispatch(fetchLogout());
-};
+  };
 
   return (
     <div className={`${styles.container}`}>
@@ -23,7 +23,7 @@ function ProfilePage() {
           <NavLink className={setActive} to="/profile" end>
             Профиль
           </NavLink>
-          <NavLink className={setActive} to="orders" end >
+          <NavLink className={setActive} to="orders" end>
             История заказов
           </NavLink>
           <NavLink className={setActive} to="/" onClick={logout} end>
@@ -39,6 +39,6 @@ function ProfilePage() {
       <Outlet />
     </div>
   );
-}
+};
 
 export default ProfilePage;

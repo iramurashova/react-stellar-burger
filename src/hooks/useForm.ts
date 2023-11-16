@@ -1,16 +1,14 @@
 import { useState } from "react";
+import { IValues } from "../utils/types";
 
-export function useForm(inputValues={}) {
+export function useForm(inputValues:IValues) {
     const [values, setValues] = useState(inputValues);
   
-    const handleChange = (event) => {
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
       const {value, name} = event.target;
       setValues({...values, [name]: value});
       console.log(values)
     };
-    const handleSubmit = (event, options) =>{
-        event.preventDefault();
-        
-    } 
+   
     return {values, handleChange, setValues};
   }
