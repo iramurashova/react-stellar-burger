@@ -1,8 +1,9 @@
 // system
-import React, { useMemo } from "react";
-import PropTypes from "prop-types";
+import React, { FC, useMemo } from "react";
 import { useDrag } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+
 
 // components
 import {
@@ -13,22 +14,21 @@ import {
 // styles
 import styles from "./burger-ingredient.module.css";
 
-// utils
-import { ingredientPropType } from "../../../utils/prop-types";
-
 //redux
 import { getIngredientData } from "../../../services/reducers/dataReducer/dataReducer";
 import { openModal } from "../../../services/reducers/modalReducer/modalReducer";
-import { Link, useLocation } from "react-router-dom";
+import { selectAllIngredients } from "../../../services/reducers/dataReducer/selector";
 
-function BurgerIngredient({ ingredient }) {
+//types
+import { TIngredient } from "../../../utils/types";
+
+type TBurgerIngredientProps = {
+  ingredient: TIngredient
+}
+const BurgerIngredient: FC<TBurgerIngredientProps>= ({ ingredient }) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const allIngredients = useSelector((store) => {
-    const ingredients = store.burgerConstructor.ingredients;
-    const bun = store.burgerConstructor.bun;
-    return [...ingredients, bun];
-  });
+  const allIngredients = useSelector(selectAllIngredients);
 
   const onOpen = () => {
     dispatch(getIngredientData(ingredient));
@@ -38,7 +38,7 @@ function BurgerIngredient({ ingredient }) {
     type: "ingredient",
     item: ingredient,
   });
-  const count = useMemo(() => {
+  const count= useMemo(() => {
     if (allIngredients.length) {
       return (
         allIngredients.filter((el) => el?._id === ingredient._id).length || 0
@@ -68,20 +68,17 @@ function BurgerIngredient({ ingredient }) {
       <h4 className={`text text_type_main-default ${styles.name}`}>
         {ingredient.name}
       </h4>
-      {count > 0 && (
+      { count as number >0 && (
+        <div className={styles.counter}>
         <Counter
-          count={count}
+          count={count || 0}
           size="default"
-          extraClass="m-1"
-          className={styles.counter}
+          extraClass="m-1" 
         />
+        </div>
       )}
     </Link>
   );
 }
-
-BurgerIngredient.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-};
 
 export default BurgerIngredient;

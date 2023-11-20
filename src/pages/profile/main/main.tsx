@@ -5,37 +5,47 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./main.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../services/reducers/userReducer/selector";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { fetchUpdateUser } from "../../../utils/api";
 
-
-function MainPage() {
-  const { name, email } = useSelector(selectUser);
+const MainPage: FC = () => {
+  const { name, email } = useSelector(selectUser) as {
+    name: string;
+    email: string;
+  };
   const [isEdit, setIsEdit] = useState(false);
   const [fieldDisabled, setDisabled] = useState(true);
   const dispatch = useDispatch();
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [values, setValues] = useLocalStorage("userData", {
     name: "",
     email: "",
     password: "",
   });
 
-  const onIconClick = () => {
-        setDisabled(false);
-        console.log('hi');
-        setTimeout(() => inputRef.current?.focus(), 0);
-    }
-const onBlur = () => {
-  setDisabled(true)
-}
+  const onIconClick = (event?: React.MouseEvent<HTMLDivElement>) => {
+    const target = event?.currentTarget
+      .closest(".input")
+      ?.querySelector("input") as HTMLDivElement;
+    target.removeAttribute("readonly");
+    target.focus();
+  };
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const target = e?.currentTarget
+      .closest(".input")
+      ?.querySelector("input") as HTMLInputElement;
+    target.setAttribute("readonly", "true");
+  };
 
-  const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+  const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    const target = e.target as typeof e.target & {
+      [name: string]: string;
+    };
+    setValues({ ...values, [target.name]: target.value });
     setIsEdit(true);
   };
 
@@ -50,9 +60,10 @@ const onBlur = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsEdit(false);
+    //@ts-ignore
     dispatch(fetchUpdateUser(values));
     localStorage.removeItem("userData");
   };
@@ -80,7 +91,6 @@ const onBlur = () => {
         onIconClick={onIconClick}
         onBlur={onBlur}
         autoComplete="username"
-        
       />
       <EmailInput
         onChange={handleChange}
@@ -95,7 +105,7 @@ const onBlur = () => {
         onChange={handleChange}
         value={values.password}
         name={"password"}
-        icon ={"EditIcon"}
+        icon={"EditIcon"}
         autoComplete="new-password"
       />
 
@@ -116,6 +126,6 @@ const onBlur = () => {
       )}
     </form>
   );
-}
+};
 
 export default MainPage;

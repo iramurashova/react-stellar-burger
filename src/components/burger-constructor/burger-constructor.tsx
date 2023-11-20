@@ -1,5 +1,5 @@
 // system
-import React, { useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
@@ -10,7 +10,10 @@ import {
   selectModalOpen,
   selectTypeOfModal,
 } from "../../services/reducers/modalReducer/selector";
-import { closeModal, openModal } from "../../services/reducers/modalReducer/modalReducer";
+import {
+  closeModal,
+  openModal,
+} from "../../services/reducers/modalReducer/modalReducer";
 import {
   selectBurgerBun,
   selectBurgerIngredients,
@@ -40,32 +43,34 @@ import BurgerConstructorItem from "./burger-constructor-item/burger-constructor-
 
 // styles
 import styles from "./burger-constructor.module.css";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { selectUser } from "../../services/reducers/userReducer/selector";
+import { TIngredient, TIngredientWithId } from "../../utils/types";
 
-function BurgerConstructor() {
-  const isOpen = useSelector(selectModalOpen);
-  const ingredients = useSelector(selectBurgerIngredients);
-  const bun = useSelector(selectBurgerBun);
-  const allIngredients = [...ingredients, bun];
-  const isLoading = useSelector(selectOrderisLoading);
-  const isError = useSelector(selectOrderIsError);
-  const success = useSelector(selectSuccess);
+
+const BurgerConstructor:FC = () => {
+  const isOpen = useSelector(selectModalOpen) as boolean;
+  const ingredients = useSelector(selectBurgerIngredients) as TIngredientWithId[];
+  const bun = useSelector(selectBurgerBun) as TIngredientWithId;
+  const allIngredients = [...ingredients, bun] as TIngredientWithId[];
+  const isLoading = useSelector(selectOrderisLoading)  as boolean;
+  const isError = useSelector(selectOrderIsError)  as boolean;
+  const success = useSelector(selectSuccess)  as boolean;
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onOpen = () => {
-    if (user)
-   { dispatch(
-      postOrderDetails({
-        ingredients: allIngredients.map((item) => item._id),
-      })
-    );
-    !isError && dispatch(removeAllIngredients());
-    dispatch(openModal("order"));
-  } else {
-navigate('/login')
-  }
+    if (user) {
+      dispatch(
+        postOrderDetails({
+          ingredients: allIngredients.map((item) => item._id),
+        })
+      );
+      !isError && dispatch(removeAllIngredients());
+      dispatch(openModal("order"));
+    } else {
+      navigate("/login");
+    }
   };
   const onClose = () => {
     dispatch(closeModal());
@@ -74,8 +79,8 @@ navigate('/login')
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(ingredient) {
-      const newElement = { ...ingredient, _customId: uuidv4() };
+    drop: (ingredient: TIngredient) => {
+      const newElement:TIngredientWithId = { ...ingredient, _customId: uuidv4() };
       dispatch(addIngredient(newElement));
     },
     collect: (monitor) => ({
@@ -83,8 +88,8 @@ navigate('/login')
     }),
   });
   const amount = useMemo(() => {
-    const sumIngredients = ingredients.reduce(
-      (currentSum, currentIngredient) => {
+    const sumIngredients:number = ingredients.reduce(
+      (currentSum:number, currentIngredient:TIngredient) => {
         return currentSum + currentIngredient.price;
       },
       0
@@ -116,7 +121,7 @@ navigate('/login')
           )}
           {ingredients.length > 0 && (
             <ul className={`${styles.middle_list} pr-2`}>
-              {ingredients.map((ingredient, index) => (
+              {ingredients.map((ingredient, index:number) => (
                 <BurgerConstructorItem
                   key={ingredient._customId}
                   ingredient={ingredient}
@@ -145,7 +150,7 @@ navigate('/login')
 
               <CurrencyIcon type="primary" />
             </div>
-           <Button
+            <Button
               htmlType="button"
               type="primary"
               size="large"
@@ -153,12 +158,11 @@ navigate('/login')
             >
               Оформить заказ
             </Button>
-           
           </div>
         )}
       </section>
       {isOpen && typeOfModal === "order" && (
-        <Modal title="" handleClose = {onClose}> 
+        <Modal title="" handleClose={onClose}>
           {isLoading && (
             <p className="text text_type_main-medium  mb-15">Загрузка...</p>
           )}
@@ -172,6 +176,6 @@ navigate('/login')
       )}
     </>
   );
-}
+};
 
 export default BurgerConstructor;

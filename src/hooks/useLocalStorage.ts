@@ -1,6 +1,7 @@
 import {useState} from "react";
+import { IValues } from "../utils/types";
 
-export const useLocalStorage = (key, initialState) => {
+export const useLocalStorage = (key:string, initialState:IValues) => {
     const [preventValue, setPreventValue] = useState(() => {
         try {
             const item = localStorage.getItem(key);
@@ -10,7 +11,7 @@ export const useLocalStorage = (key, initialState) => {
         }
     });
 
-    const setValue = (value) => {
+    const setValue = (value:IValues) => {
         try {
             setPreventValue(value);
             localStorage.setItem(key, JSON.stringify(value));

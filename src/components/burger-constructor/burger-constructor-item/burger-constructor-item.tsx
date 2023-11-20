@@ -1,9 +1,7 @@
 //system
-import React from "react";
+import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { ingredientPropType } from "../../../utils/prop-types";
-import PropTypes from "prop-types";
 
 //sty;es
 import styles from "./burger-constructor-item.module.css";
@@ -20,20 +18,28 @@ import {
   changeIngredientsPlace,
   removeIngredient,
 } from "../../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
+import { TIngredientWithId } from "../../../utils/types";
+type TBurgerConstructorItemprops = {
+  ingredient: TIngredientWithId;
+  index: number;
+};
 
-function BurgerConstructorItem({ ingredient, index }) {
+
+const BurgerConstructorItem: FC<TBurgerConstructorItemprops> = ({
+  ingredient,
+  index,
+}) => {
   const dispatch = useDispatch();
-  const burgerIngredientsArr = useSelector(selectBurgerIngredients);
-  const findIndex = (el) => burgerIngredientsArr.indexOf(el);
+  const burgerIngredientsArr = useSelector(selectBurgerIngredients) as Array<TIngredientWithId>;
+  const findIndex = (el:TIngredientWithId) => burgerIngredientsArr.indexOf(el);
   const [, dragRef] = useDrag({
     type: "sort",
     item: { item: ingredient },
   });
   const [, dropRef] = useDrop({
     accept: "sort",
-    hover({ item }) {
+    hover({ item }:{item: TIngredientWithId}):void {
       if (item._customId === ingredient._customId) return;
-      console.log("budums");
       dispatch(
         changeIngredientsPlace({
           indexFrom: findIndex(item),
@@ -54,9 +60,6 @@ function BurgerConstructorItem({ ingredient, index }) {
       />
     </li>
   );
-}
-BurgerConstructorItem.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  index: PropTypes.number,
 };
+
 export default BurgerConstructorItem;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import styles from "./resetPassword.module.css";
 import {
   Button,
@@ -11,20 +11,23 @@ import { fetchResetPassword } from "../../utils/api";
 import { useDispatch, useSelector } from "react-redux";
 import { selectEmailChecked } from "../../services/reducers/userReducer/selector";
 
-function ResetPasswordPage() {
+const ResetPasswordPage:FC = () => {
   const { values, handleChange } = useForm({
     password: "",
     token: "",
   });
-  const isEmailChecked = useSelector(selectEmailChecked)
+  const isEmailChecked = useSelector(selectEmailChecked);
   console.log(isEmailChecked);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    //@ts-ignore
     dispatch(fetchResetPassword(values));
-    {navigate('/')}
+    {
+      navigate("/");
+    }
   };
 
   if (!isEmailChecked) {
@@ -60,12 +63,16 @@ function ResetPasswordPage() {
         <p className={`text text_type_main-default text_color_inactive`}>
           Вспомнили пароль?
         </p>
-       
-        <Link to= '/login' className={`text text_type_main-default text_color_accent ${styles.button}`}>Войти</Link>
-        
+
+        <Link
+          to="/login"
+          className={`text text_type_main-default text_color_accent ${styles.button}`}
+        >
+          Войти
+        </Link>
       </div>
     </div>
   );
-}
+};
 
 export default ResetPasswordPage;
