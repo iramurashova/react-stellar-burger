@@ -1,21 +1,21 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import React, { FC, useEffect } from "react";
 import { setAuthChecked } from "../../services/reducers/userReducer/userReducer";
 import { checkUserAuth } from "../../utils/api";
 import { selectAuth, selectUser } from "../../services/reducers/userReducer/selector";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 
 const ProtectedRoute = ({ onlyUnAuth = false, component}: {onlyUnAuth?:boolean, component: JSX.Element}) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setAuthChecked(false));
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const isAuthChecked = useSelector(selectAuth) as boolean;
-  const user = useSelector(selectUser);
+  const isAuthChecked = useAppSelector(selectAuth);
+  const user = useAppSelector(selectUser);
   const location = useLocation();
 
   if (!isAuthChecked) {

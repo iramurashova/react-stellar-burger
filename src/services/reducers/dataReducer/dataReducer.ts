@@ -1,7 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "../../../utils/api";
+import { TIngredient } from "../../../utils/types";
 
-const initialState = {
+type TDataState = {
+  ingredientsFromApi: TIngredient[],
+  isLoading:boolean,
+  isError: boolean,
+  ingredientDetails: {
+    ingredient: TIngredient | null,
+  },
+};
+const initialState:TDataState = {
   ingredientsFromApi: [],
   isLoading: false,
   isError: false,

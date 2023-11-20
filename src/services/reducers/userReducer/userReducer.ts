@@ -1,8 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchForgotPassword, fetchLogin, fetchLogout, fetchRegister, fetchResetPassword, fetchUpdateUser } from "../../../utils/api";
+import {
+  fetchForgotPassword,
+  fetchLogin,
+  fetchLogout,
+  fetchRegister,
+  fetchResetPassword,
+  fetchUpdateUser,
+} from "../../../utils/api";
 
-const initialState = {
-  user: null,
+type TInitialState = {
+  user: { name: string; email: string };
+  isAuthChecked: boolean;
+  error: {} | null;
+  isEmailChecked: boolean;
+};
+const initialState: TInitialState = {
+  user: {
+    name: '',
+    email: ''
+  },
   isAuthChecked: false,
   error: null,
   isEmailChecked: false,
@@ -16,7 +32,7 @@ export const userSlice = createSlice({
       state.isAuthChecked = action.payload;
     },
     setEmailChecked: (state, action) => {
-      state.isEmailChecked = action.payload
+      state.isEmailChecked = action.payload;
     },
     setUser: (state, action) => {
       state.user = action.payload;
@@ -35,7 +51,10 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchLogout.fulfilled, (state) => {
-        state.user = null;
+        state.user = {
+          name: '',
+          email: ''
+        };
         state.error = null;
       })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
@@ -45,8 +64,8 @@ export const userSlice = createSlice({
       .addCase(fetchForgotPassword.fulfilled, (state) => {
         state.error = null;
       })
-      .addCase(fetchResetPassword, (state) => {
-        state.error = null
+      .addCase(fetchResetPassword.fulfilled, (state) => {
+        state.error = null;
       })
       .addMatcher(
         (action) => action.type.endsWith("/rejected"),
@@ -57,6 +76,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setAuthChecked, setUser,setEmailChecked } = userSlice.actions;
+export const { setAuthChecked, setUser, setEmailChecked } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

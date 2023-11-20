@@ -2,8 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../../../utils/api";
 
 export const postOrderDetails = createAsyncThunk("order/post", postOrder);
-const initialState = {
-  order: {},
+type TOrderState = {
+  order: { ingredients: string[] | null, number: number | null };
+  success: boolean;
+  isLoading: boolean;
+  isError: boolean;
+};
+const initialState: TOrderState = {
+  order: { ingredients: null, number: null },
   success: false,
   isLoading: false,
   isError: false,
@@ -12,6 +18,7 @@ const initialState = {
 const orderSlice = createSlice({
   name: "orderDetails",
   initialState,
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(postOrderDetails.pending, (state) => {

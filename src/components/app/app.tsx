@@ -13,16 +13,16 @@ import ResetPasswordPage from "../../pages/resetPasswordPage/resetPassword";
 import MainPage from "../../pages/profile/main/main";
 import HistoryPage from "../../pages/profile/history/history";
 import OrdersPage from "../../pages/orders/orders";
-import { useDispatch} from "react-redux";
 import { checkUserAuth } from "../../utils/api";
 import { OnlyAuth, OnlyUnAuth } from "../protectedRoute/protectedroute";
 import NotFoundPage from "../../pages/notFound/notFound";
 import IngredientPage from "../../pages/ingredient/ingredient";
 import Modal from "../modal/modal";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { useAppDispatch } from "../../utils/hooks";
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate()
   const background = location.state && location.state.background;

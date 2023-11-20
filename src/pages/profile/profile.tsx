@@ -1,8 +1,8 @@
-import { useDispatch } from "react-redux";
 import styles from "./profile.module.css";
-import { Link, NavLink, Outlet, useMatch } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { fetchLogout } from "../../utils/api";
 import { FC, MouseEventHandler } from "react";
+import { useAppDispatch } from "../../utils/hooks";
 
 const ProfilePage: FC = () => {
   const setActive = ({ isActive }: { isActive: boolean }) => {
@@ -10,7 +10,7 @@ const ProfilePage: FC = () => {
       isActive ? "text_color_primary" : "text_color_inactive"
     }`;
   };
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const logout: MouseEventHandler = (e) => {
     e.preventDefault();
     dispatch(fetchLogout());

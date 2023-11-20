@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+type TModalState = {
+  isOpen: boolean,
+  typeOfModal: string | null,
+}
+const initialState:TModalState = {
   isOpen: false,
   typeOfModal: null,
 };

@@ -25,7 +25,7 @@ const request = (endPoints:string, options:TRequestOptions) => {
   return fetch(`${domenAdress}/${endPoints}`, options).then(checkResponse);
 };
 
-export const fetchIngredients = async (_: any, thunkAPI: any) => {
+export const fetchIngredients = async () => {
   return request("ingredients", {
     method: "GET",
     mode: "cors",
@@ -36,7 +36,7 @@ export const fetchIngredients = async (_: any, thunkAPI: any) => {
     }},).then((res) => res.data);
 };
 
-export const postOrder = async (ingredients: TIngredients, thunkAPI:any) => {
+export const postOrder = async (ingredients: TIngredients) => {
   return request("orders", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC } from "react";
 import styles from "./forgotPassword.module.css";
 import {
   Button,
@@ -8,16 +8,15 @@ import {
 import { useForm } from "../../hooks/useForm";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchForgotPassword } from "../../utils/api";
-import { useDispatch } from "react-redux";
 import { setEmailChecked } from "../../services/reducers/userReducer/userReducer";
+import { useAppDispatch } from "../../utils/hooks";
 
 const ForgotPasswordPage: FC = () => {
   const { values, handleChange } = useForm({ email: "" });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(fetchForgotPassword(values)).then((res) =>
       dispatch(setEmailChecked(res.payload.success))
     );

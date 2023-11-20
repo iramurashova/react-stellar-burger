@@ -8,11 +8,11 @@ import React, { FC } from "react";
 import styles from "./register.module.css";
 import { useForm } from "../../hooks/useForm";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { fetchRegister } from "../../utils/api";
+import { useAppDispatch } from "../../utils/hooks";
 
 const RegisterPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { values, handleChange, setValues } = useForm({
     name: "",
@@ -21,7 +21,6 @@ const RegisterPage: FC = () => {
   });
   const handleRegister = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(fetchRegister(values));
     setValues({
       name: "",

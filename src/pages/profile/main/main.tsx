@@ -7,19 +7,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./main.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../services/reducers/userReducer/selector";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { fetchUpdateUser } from "../../../utils/api";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 
 const MainPage: FC = () => {
-  const { name, email } = useSelector(selectUser) as {
-    name: string;
-    email: string;
-  };
+  const { name, email } = useAppSelector(selectUser)
   const [isEdit, setIsEdit] = useState(false);
   const [fieldDisabled, setDisabled] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const [values, setValues] = useLocalStorage("userData", {
     name: "",
@@ -63,7 +60,6 @@ const MainPage: FC = () => {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsEdit(false);
-    //@ts-ignore
     dispatch(fetchUpdateUser(values));
     localStorage.removeItem("userData");
   };

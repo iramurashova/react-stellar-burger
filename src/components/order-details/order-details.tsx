@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./order-details.module.css";
-import { useSelector } from "react-redux";
 import { selectOrderNumber } from "../../services/reducers/orderReducer/selector";
+import { useAppSelector } from "../../utils/hooks";
 
 function OrderDetails() {
-  const orderNumber = useSelector(selectOrderNumber);
+  const orderNumber = useAppSelector(selectOrderNumber);
   const order = {
     status: "Ваш заказ начали готовить",
     message: "Дождитесь готовности на орбитальной станции",

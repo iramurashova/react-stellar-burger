@@ -7,17 +7,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
-import { useDispatch } from "react-redux";
 import { fetchLogin } from "../../utils/api";
+import { useAppDispatch } from "../../utils/hooks";
 const LoginPage: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { values, handleChange } = useForm({
     email: "",
     password: "",
   });
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(fetchLogin(values));
   };
   return (
