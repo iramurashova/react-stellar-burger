@@ -54,7 +54,7 @@ function App() {
           path="reset-password"
           element={<OnlyUnAuth component={<ResetPasswordPage />} />}
         />
-        <Route path="orders" element={<OrdersPage />} />
+        <Route path="feed" element={<OrdersPage />} />
         <Route
           path="profile"
           element={<OnlyAuth component={<ProfilePage />} />}

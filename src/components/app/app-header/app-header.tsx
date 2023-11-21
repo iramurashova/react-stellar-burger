@@ -26,11 +26,11 @@ function AppHeader() {
           <MenuItem
             icon={
               <ListIcon
-                type={pathname === "/orders" ? "primary" : "secondary"}
+                type={pathname === "/feed" ? "primary" : "secondary"}
               />
             }
             text="Лента заказов"
-            path="/orders"
+            path="/feed"
           />
         </ul>
         <div className={styles.logo}>

@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { store } from "./services/store";
 import { Provider } from "react-redux";
-import { BrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
-const root = document.getElementById("root")
+const root = document.getElementById("root") as HTMLDivElement
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
