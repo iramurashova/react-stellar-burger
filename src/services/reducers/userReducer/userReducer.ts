@@ -9,16 +9,13 @@ import {
 } from "../../../utils/api";
 
 type TInitialState = {
-  user: { name: string; email: string };
+  user: { name: string; email: string } | null;
   isAuthChecked: boolean;
   error: {} | null;
   isEmailChecked: boolean;
 };
 const initialState: TInitialState = {
-  user: {
-    name: '',
-    email: ''
-  },
+  user: null,
   isAuthChecked: false,
   error: null,
   isEmailChecked: false,
@@ -51,10 +48,7 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchLogout.fulfilled, (state) => {
-        state.user = {
-          name: '',
-          email: ''
-        };
+        state.user = null;
         state.error = null;
       })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {

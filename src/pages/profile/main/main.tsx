@@ -13,7 +13,7 @@ import { fetchUpdateUser } from "../../../utils/api";
 import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 
 const MainPage: FC = () => {
-  const { name, email } = useAppSelector(selectUser)
+  const user= useAppSelector(selectUser);
   const [isEdit, setIsEdit] = useState(false);
   const [fieldDisabled, setDisabled] = useState(true);
   const dispatch = useAppDispatch();
@@ -24,18 +24,19 @@ const MainPage: FC = () => {
     password: "",
   });
 
-  const onIconClick = (event?: React.MouseEvent<HTMLDivElement>) => {
+  const onIconClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event?.currentTarget
       .closest(".input")
       ?.querySelector("input") as HTMLDivElement;
-    target.removeAttribute("readonly");
-    target.focus();
+      target.focus();
+    setDisabled(false)
+    
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e?.currentTarget
       .closest(".input")
       ?.querySelector("input") as HTMLInputElement;
-    target.setAttribute("readonly", "true");
+    setDisabled(true)
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -48,10 +49,10 @@ const MainPage: FC = () => {
 
   const handleReset = () => {
     setIsEdit(false);
-    if (name && email) {
+    if (user && user.name && user.email) {
       setValues({
-        name,
-        email,
+        name: user.name,
+        email: user.email,
         password: "",
       });
     }
@@ -65,14 +66,14 @@ const MainPage: FC = () => {
   };
 
   useEffect(() => {
-    if (name && email) {
+    if (user && user.name && user.email) {
       setValues({
-        name: name,
-        email: email,
+        name: user.name,
+        email: user.email,
         password: "",
       });
     }
-  }, [name, email]);
+  }, [user?.name, user?.email]);
 
   return (
     <form onSubmit={handleSubmit} className={styles.inputs}>
