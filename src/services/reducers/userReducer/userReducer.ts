@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import {
   fetchForgotPassword,
   fetchLogin,
@@ -7,9 +7,9 @@ import {
   fetchResetPassword,
   fetchUpdateUser,
 } from "../../../utils/api";
-
+type TUser = { name: string; email: string } | null
 type TInitialState = {
-  user: { name: string; email: string } | null;
+  user: TUser;
   isAuthChecked: boolean;
   error: {} | null;
   isEmailChecked: boolean;
@@ -25,13 +25,13 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setAuthChecked: (state, action) => {
+    setAuthChecked: (state, action:PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setEmailChecked: (state, action) => {
+    setEmailChecked: (state, action:PayloadAction<boolean>) => {
       state.isEmailChecked = action.payload;
     },
-    setUser: (state, action) => {
+    setUser: (state, action:PayloadAction<TUser>) => {
       state.user = action.payload;
     },
   },

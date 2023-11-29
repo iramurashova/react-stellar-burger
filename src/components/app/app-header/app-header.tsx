@@ -8,6 +8,7 @@ import {
 import styles from "./app-header.module.css";
 import MenuItem from "./menu-item/menu-item";
 import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function AppHeader() {
   const { pathname } = useLocation();
@@ -25,16 +26,16 @@ function AppHeader() {
 
           <MenuItem
             icon={
-              <ListIcon
-                type={pathname === "/feed" ? "primary" : "secondary"}
-              />
+              <ListIcon type={pathname === "/feed" ? "primary" : "secondary"} />
             }
             text="Лента заказов"
             path="/feed"
           />
         </ul>
         <div className={styles.logo}>
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
         </div>
 
         <MenuItem

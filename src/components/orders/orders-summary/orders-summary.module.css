@@ -1,0 +1,47 @@
+.summary_container {
+    display: flex;
+    gap: calc(var(--offset-base-size) * 9);
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--offset-base-size) * 6);
+    
+    
+  }
+  
+  .order_numbers {
+    display: flex;
+    flex-flow: column wrap;
+    gap: calc(var(--offset-base-size) * 2);
+    list-style: none;
+    margin: 0 0 4px 0;
+    padding: 0;
+    width: 20vw;
+    max-height: 20vh;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  
+  }
+  .order_numbers::-webkit-scrollbar {
+     height: 8px;
+    }
+    
+    .order_numbers::-webkit-scrollbar-thumb {
+      background-color: #8585ad;
+    }
+  .ready_order_numbers {
+      display: flex;
+      flex-flow: column wrap;
+      gap: calc(var(--offset-base-size) * 2);
+      list-style: none;
+      margin: 0 0 4px 0;
+      padding: 0;
+      width: 20vw;
+      max-height: 20vh;
+  }
+  .number {
+    margin: 0;
+    text-shadow: 0px 4px 32px rgba(51, 51, 255, 0.5),
+      0px 0px 8px rgba(51, 51, 255, 0.25), 0px 0px 16px rgba(51, 51, 255, 0.25);
+  }
