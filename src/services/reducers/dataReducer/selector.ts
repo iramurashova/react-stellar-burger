@@ -5,10 +5,10 @@ export const selectIngredients = (store: RootStore) =>
 export const selectIngredient = (store: RootStore) =>
   store.data.ingredientDetails.ingredient;
 export const selectIngredientById =
-  (id: string | undefined) => (store: RootStore) =>
+  (id?: string ) => (store: RootStore) =>
     store.data.ingredientsFromApi.find((data) => data._id === id);
 export const selectOrderByNumber =
-  (id: string | undefined) => (store: RootStore) =>
+  (id?: string ) => (store: RootStore) =>
     store.data.orders?.orders.find(
       (item) => item.number.toString() === id 
     );
