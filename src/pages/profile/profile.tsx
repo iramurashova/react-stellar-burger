@@ -5,8 +5,6 @@ import { FC, MouseEventHandler } from "react";
 import { useAppDispatch } from "../../utils/hooks";
 
 const ProfilePage: FC = () => {
-  const location = useLocation();
-    const background = location.state?.background;
   const setActive = ({ isActive }: { isActive: boolean }) => {
     return `${styles.link} text_type_main-medium ${
       isActive ? "text_color_primary" : "text_color_inactive"

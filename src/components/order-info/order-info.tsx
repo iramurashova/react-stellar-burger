@@ -14,8 +14,6 @@ import {
 import styles from "./order-info.module.css";
 import { fetchOrder } from "../../utils/api";
 
-
-
 const OrderInfo: FC = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -23,20 +21,19 @@ const OrderInfo: FC = () => {
   const background = location.state?.background;
 
   const orders = useAppSelector(selectOrders);
- 
 
   let orderMatch: TOrder | null = null;
   const ingredients = useAppSelector(selectIngredients);
- useEffect(() => {
-    if (location.pathname.startsWith('/profile')&& !background) {
-       id && dispatch(fetchOrder(id))
-    } else 
-if ((location.pathname.startsWith('/feed')) && !background) {
-       id && dispatch(fetchOrder(id))
-     }
- }, [location.pathname]);
-  
- orderMatch = orders?.orders.find((order) => order.number.toString() === id) || null;
+  useEffect(() => {
+    if (location.pathname.startsWith("/profile") && !background) {
+      id && dispatch(fetchOrder(id));
+    } else if (location.pathname.startsWith("/feed") && !background) {
+      id && dispatch(fetchOrder(id));
+    }
+  }, [location.pathname]);
+
+  orderMatch =
+    orders?.orders.find((order) => order.number.toString() === id) || null;
 
   const returnIngredients = useCallback(() => {
     const newIngredients = Array.from(new Set(orderMatch?.ingredients));
@@ -44,23 +41,27 @@ if ((location.pathname.startsWith('/feed')) && !background) {
       return ingredients?.find((item) => item?._id === ingredient);
     });
   }, [orderMatch]);
-  const returnIngredientsAmount = useCallback(
-    (id: string | undefined) => {
-      let ingredientsAmount = 0;
-      orderMatch?.ingredients.map((ingredientId) => {
-        if (ingredientId === id) ingredientsAmount++;
-      });
-      return ingredientsAmount;
-    },
-    [orderMatch?.ingredients]
-  );
-  const returnIngredientsPrice = useCallback(() => {
+  const returnIngredientsAmount = (id?: string) => {
+    let ingredientsAmount = 0;
+    const orderIngredient = ingredients?.find((item) => item?._id === id);
+    orderIngredient?.type === "bun"
+      ? (ingredientsAmount = 2)
+      : orderMatch?.ingredients.map((ingredientId) => {
+          if (ingredientId === id) ingredientsAmount++;
+        });
+    return ingredientsAmount;
+  };
+  const returnIngredientsPrice = () => {
     const ingredientsPrice = orderMatch?.ingredients
-      ?.map(
-        (ingredient) =>
-          ingredients?.find((item) => item?._id === ingredient)?.price
-      )
-      ?.reduce((sum: number, item: number | undefined) => {
+      ?.map((ingredient) => {
+        const newIngredient = ingredients?.find(
+          (item) => item?._id === ingredient
+        );
+        return newIngredient?.type === "bun"
+          ? newIngredient.price * 2
+          : newIngredient?.price;
+      })
+      ?.reduce((sum = 0, item) => {
         if (item) {
           sum += item;
         }
@@ -68,14 +69,21 @@ if ((location.pathname.startsWith('/feed')) && !background) {
       }, 0);
 
     return ingredientsPrice;
-  }, [orderMatch?.ingredients]);
+  };
+  if (!orderMatch) return null;
 
-  return orderMatch ? (
+  return (
     <div className={`pl-10 pr-10 pb-10 ${styles.order_details}`}>
-      <p className={`${!background? styles.centeredHeader : styles.header} text text_type_digits-default`}>
+      <p
+        className={`${
+          !background ? styles.centeredHeader : styles.header
+        } text text_type_digits-default`}
+      >
         {`#${orderMatch.number}`}
       </p>
-      <p className={`mt-10 text text_type_main-medium`}>{`${orderMatch.name}`}</p>
+      <p
+        className={`mt-10 text text_type_main-medium`}
+      >{`${orderMatch.name}`}</p>
       <p
         className={`mt-2 mb-15 text text_type_main-small ${
           orderMatch.status === "done" ? "text_color_success" : ""
@@ -94,7 +102,9 @@ if ((location.pathname.startsWith('/feed')) && !background) {
                   alt={ingredient?.name}
                   className={styles.item_image}
                 />
-                <p className={`text text_type_main-small ${styles.item_name}`}>{ingredient?.name}</p>
+                <p className={`text text_type_main-small ${styles.item_name}`}>
+                  {ingredient?.name}
+                </p>
               </div>
               <div className={styles.item_sum}>
                 <p
@@ -121,7 +131,7 @@ if ((location.pathname.startsWith('/feed')) && !background) {
         </div>
       </div>
     </div>
-  ) :  null
+  );
 };
 
 export default OrderInfo;
