@@ -1,7 +1,6 @@
 // system
 import React, { FC, useMemo } from "react";
 import { useDrag } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 
@@ -21,14 +20,15 @@ import { selectAllIngredients } from "../../../services/reducers/dataReducer/sel
 
 //types
 import { TIngredient } from "../../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 
 type TBurgerIngredientProps = {
   ingredient: TIngredient
 }
 const BurgerIngredient: FC<TBurgerIngredientProps>= ({ ingredient }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const allIngredients = useSelector(selectAllIngredients);
+  const dispatch = useAppDispatch();
+  const allIngredients = useAppSelector(selectAllIngredients);
 
   const onOpen = () => {
     dispatch(getIngredientData(ingredient));

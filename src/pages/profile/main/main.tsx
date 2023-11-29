@@ -7,19 +7,16 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { FC, useEffect, useRef, useState } from "react";
 import styles from "./main.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../../services/reducers/userReducer/selector";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { fetchUpdateUser } from "../../../utils/api";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 
 const MainPage: FC = () => {
-  const { name, email } = useSelector(selectUser) as {
-    name: string;
-    email: string;
-  };
+  const user= useAppSelector(selectUser);
   const [isEdit, setIsEdit] = useState(false);
   const [fieldDisabled, setDisabled] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const [values, setValues] = useLocalStorage("userData", {
     name: "",
@@ -27,18 +24,19 @@ const MainPage: FC = () => {
     password: "",
   });
 
-  const onIconClick = (event?: React.MouseEvent<HTMLDivElement>) => {
+  const onIconClick = (event: React.MouseEvent<HTMLDivElement>) => {
     const target = event?.currentTarget
       .closest(".input")
       ?.querySelector("input") as HTMLDivElement;
-    target.removeAttribute("readonly");
-    target.focus();
+      target.focus();
+    setDisabled(false)
+    
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const target = e?.currentTarget
       .closest(".input")
       ?.querySelector("input") as HTMLInputElement;
-    target.setAttribute("readonly", "true");
+    setDisabled(true)
   };
 
   const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -51,10 +49,10 @@ const MainPage: FC = () => {
 
   const handleReset = () => {
     setIsEdit(false);
-    if (name && email) {
+    if (user && user.name && user.email) {
       setValues({
-        name,
-        email,
+        name: user.name,
+        email: user.email,
         password: "",
       });
     }
@@ -63,20 +61,19 @@ const MainPage: FC = () => {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsEdit(false);
-    //@ts-ignore
     dispatch(fetchUpdateUser(values));
     localStorage.removeItem("userData");
   };
 
   useEffect(() => {
-    if (name && email) {
+    if (user && user.name && user.email) {
       setValues({
-        name: name,
-        email: email,
+        name: user.name,
+        email: user.email,
         password: "",
       });
     }
-  }, [name, email]);
+  }, [user?.name, user?.email]);
 
   return (
     <form onSubmit={handleSubmit} className={styles.inputs}>

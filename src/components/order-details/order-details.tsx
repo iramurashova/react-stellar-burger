@@ -1,17 +1,17 @@
 import React from "react";
 import styles from "./order-details.module.css";
-import { useSelector } from "react-redux";
 import { selectOrderNumber } from "../../services/reducers/orderReducer/selector";
+import { useAppSelector } from "../../utils/hooks";
 
 function OrderDetails() {
-  const orderNumber = useSelector(selectOrderNumber);
+  const orderNumber = useAppSelector(selectOrderNumber);
   const order = {
     status: "Ваш заказ начали готовить",
     message: "Дождитесь готовности на орбитальной станции",
   };
   return (
     <>
-      <h2 className={`text text_type_digits-large mt-4 mb-8 ${styles.number}`}>
+      <h2 className={`text text_type_digits-large mb-8 ${styles.number}`}>
         {orderNumber}
       </h2>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>

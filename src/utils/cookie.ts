@@ -1,7 +1,7 @@
 type TSetCookieProps = {
   [key: string]: any | {};
 };
-export function getCookie(name: string): string | undefined {
+export const getCookie: (name: string) => string | undefined = (name) => {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -10,9 +10,13 @@ export function getCookie(name: string): string | undefined {
     )
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+};
 
-export function setCookie(name:string, value: string | null, props:TSetCookieProps = {}) {
+export function setCookie(
+  name: string,
+  value: string | null,
+  props: TSetCookieProps = {}
+) {
   props = {
     path: "/",
     ...props,
@@ -39,6 +43,6 @@ export function setCookie(name:string, value: string | null, props:TSetCookiePro
   document.cookie = updatedCookie;
 }
 
-export const deleteCookie = (name:string) => {
+export const deleteCookie = (name: string) => {
   setCookie(name, null, { expires: -1 });
 };

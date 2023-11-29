@@ -5,14 +5,14 @@ import {
 } from "../services/reducers/userReducer/userReducer";
 import { domenAdress } from "./constants";
 import { deleteCookie, getCookie, setCookie } from "./cookie";
-import { IValues, TIngredient } from "./types";
-import { useDispatch } from "react-redux";
+import { IValues, TIngredient, TOrders } from "./types";
+import { AppDispatch } from "../services/store";
 type TRequestOptions = RequestInit & {
   headers: Record<string, string>;
 };
 type TIngredients = {
-  ingredients: string[]
-}
+  ingredients: string[];
+};
 
 const checkResponse = (res: Response) => {
   if (res.ok) {
@@ -21,25 +21,29 @@ const checkResponse = (res: Response) => {
   return Promise.reject(`Ошибка: ${res.status}`);
 };
 
-const request = (endPoints:string, options:TRequestOptions) => {
+const request = (endPoints: string, options: TRequestOptions) => {
   return fetch(`${domenAdress}/${endPoints}`, options).then(checkResponse);
 };
 
-export const fetchIngredients = async (_: any, thunkAPI: any) => {
+export const fetchIngredients = async () => {
   return request("ingredients", {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
-    }},).then((res) => res.data);
+      "Content-Type": "application/json;charset=utf-8",
+    },
+  }).then((res) => res.data);
 };
 
-export const postOrder = async (ingredients: TIngredients, thunkAPI:any) => {
+export const postOrder = async (ingredients: TIngredients) => {
   return request("orders", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+      authorization: getCookie("accessToken") as string,
+    },
     body: JSON.stringify(ingredients),
   });
 };
@@ -55,11 +59,11 @@ const refreshToken = () => {
   }).then(checkResponse);
 };
 
-const fetchWithRefresh = async (url:string, options:TRequestOptions) => {
+const fetchWithRefresh = async (url: string, options: TRequestOptions) => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
-  } catch (err:any) {
+  } catch (err: any) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
@@ -77,13 +81,12 @@ const fetchWithRefresh = async (url:string, options:TRequestOptions) => {
 };
 
 export const fetchGetUser = () => {
-  //@ts-ignore
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     return fetchWithRefresh(`${domenAdress}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization : getCookie("accessToken") as string,
+        authorization: getCookie("accessToken") as string,
       },
     }).then((res) => {
       if (res.success) {
@@ -119,25 +122,28 @@ export const fetchRegister = createAsyncThunk(
   }
 );
 
-export const fetchLogin = createAsyncThunk("auth/login", async (values: IValues) => {
-  const res = await request("auth/login", {
-    method: "POST",
-    cache: "no-cache",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    redirect: "follow",
-    referrerPolicy: "no-referrer",
-    body: JSON.stringify({
-      email: values.email,
-      password: values.password,
-    }),
-  });
-  setCookie("accessToken", res.accessToken);
-  setCookie("refreshToken", res.refreshToken);
-  return res.user;
-});
+export const fetchLogin = createAsyncThunk(
+  "auth/login",
+  async (values: IValues) => {
+    const res = await request("auth/login", {
+      method: "POST",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+      }),
+    });
+    setCookie("accessToken", res.accessToken);
+    setCookie("refreshToken", res.refreshToken);
+    return res.user;
+  }
+);
 export const fetchLogout = createAsyncThunk("auth/logout", async () => {
   await request("auth/logout", {
     method: "POST",
@@ -157,8 +163,7 @@ export const fetchLogout = createAsyncThunk("auth/logout", async () => {
 });
 
 export const checkUserAuth = () => {
-  //@ts-ignore
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     if (getCookie("accessToken")) {
       dispatch(fetchGetUser())
         .catch(() => {
@@ -212,7 +217,7 @@ export const fetchForgotPassword = createAsyncThunk(
 );
 export const fetchResetPassword = createAsyncThunk(
   "auth/resetPassword",
-  async (values:IValues) => {
+  async (values: IValues) => {
     return request("password-reset/reset", {
       method: "POST",
       cache: "no-cache",
@@ -229,3 +234,27 @@ export const fetchResetPassword = createAsyncThunk(
     });
   }
 );
+export const fetchOrder = createAsyncThunk(
+  "data/fetchOrder",
+  async function (number: string) {
+  const res = await request(`orders/${number}`, {
+  method: "GET",
+  cache: "no-cache",
+  credentials: "same-origin",
+  headers: {
+  "Content-Type": "application/json;charset=utf-8",
+  },
+  redirect: "follow",
+  referrerPolicy: "no-referrer",
+  });
+  const data: TOrders = await res;
+
+return data;
+}
+);
+
+
+
+
+
+

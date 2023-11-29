@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { FC } from "react";
 import styles from "./resetPassword.module.css";
 import {
   Button,
@@ -8,22 +8,21 @@ import {
 import { useForm } from "../../hooks/useForm";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { fetchResetPassword } from "../../utils/api";
-import { useDispatch, useSelector } from "react-redux";
 import { selectEmailChecked } from "../../services/reducers/userReducer/selector";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
-const ResetPasswordPage:FC = () => {
+const ResetPasswordPage: FC = () => {
   const { values, handleChange } = useForm({
     password: "",
     token: "",
   });
-  const isEmailChecked = useSelector(selectEmailChecked);
+  const isEmailChecked = useAppSelector(selectEmailChecked);
   console.log(isEmailChecked);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(fetchResetPassword(values));
     {
       navigate("/");

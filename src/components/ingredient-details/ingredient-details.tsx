@@ -1,18 +1,17 @@
 // system
 import React from "react";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 // styles
 import styles from "./ingredient-details.module.css";
 
 // redux
 import { selectIngredientById } from "../../services/reducers/dataReducer/selector";
-import { useParams } from "react-router-dom";
-import { TIngredient } from "../../utils/types";
+import { useAppSelector } from "../../utils/hooks";
 
 function IngredientDetails() {
 
   const {id} = useParams()
-  const ingredient = useSelector(selectIngredientById(id)) as TIngredient;
+  const ingredient = useAppSelector(selectIngredientById(id));
   if (!ingredient) return null;
   return (
     <>

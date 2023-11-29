@@ -17,14 +17,14 @@ import {
   selectIsError,
   selectIsLoading,
 } from "../../services/reducers/dataReducer/selector";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 const Layout:FC = () => {
-    const isLoading = useSelector(selectIsLoading) as boolean;
-    const isError = useSelector(selectIsError) as boolean;
+    const isLoading = useAppSelector(selectIsLoading);
+    const isError = useAppSelector(selectIsError);
   
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     useEffect(() => {
-      //@ts-ignore
       dispatch(getIngredientsData());
     }, []);
   

@@ -1,7 +1,6 @@
 //system
 import React, { FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 
 //sty;es
 import styles from "./burger-constructor-item.module.css";
@@ -19,26 +18,26 @@ import {
   removeIngredient,
 } from "../../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
 import { TIngredientWithId } from "../../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../../utils/hooks";
 type TBurgerConstructorItemprops = {
   ingredient: TIngredientWithId;
   index: number;
 };
 
-
 const BurgerConstructorItem: FC<TBurgerConstructorItemprops> = ({
   ingredient,
   index,
 }) => {
-  const dispatch = useDispatch();
-  const burgerIngredientsArr = useSelector(selectBurgerIngredients) as Array<TIngredientWithId>;
-  const findIndex = (el:TIngredientWithId) => burgerIngredientsArr.indexOf(el);
+  const dispatch = useAppDispatch();
+  const burgerIngredientsArr = useAppSelector(selectBurgerIngredients);
+  const findIndex = (el: TIngredientWithId) => burgerIngredientsArr.indexOf(el);
   const [, dragRef] = useDrag({
     type: "sort",
     item: { item: ingredient },
   });
   const [, dropRef] = useDrop({
     accept: "sort",
-    hover({ item }:{item: TIngredientWithId}):void {
+    hover({ item }: { item: TIngredientWithId }): void {
       if (item._customId === ingredient._customId) return;
       dispatch(
         changeIngredientsPlace({

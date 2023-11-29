@@ -12,8 +12,24 @@ export type TIngredient = {
   __v: number;
   _id: string;
 };
+
 export type TIngredientWithId = TIngredient & { _customId: string };
 export type TVoidWithoutParams = () => void;
 export interface IValues {
-    [name: string]: string,
-  }
+  [name: string]: string;
+}
+export type TOrders = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+};
+export type TOrder = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+};
