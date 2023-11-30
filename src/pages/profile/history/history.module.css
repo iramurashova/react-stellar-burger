@@ -1,13 +1,13 @@
 .history {
-    width: 40vw;
-    max-height: 65vh;
+  width: 60vw;
+  max-height: 65vh;
   overflow-y: scroll;
 }
 .history::-webkit-scrollbar {
-    width: 8px;
-    background-color: #2f2f37;
-  }
-  
-  .history::-webkit-scrollbar-thumb {
-    background-color: #8585ad;
-  }
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.history::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}

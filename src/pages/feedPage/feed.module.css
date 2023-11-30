@@ -1,11 +1,12 @@
 .orders {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(2, 45wv);
+  grid-template-columns: 45vw 45vw;
   grid-template-areas:
     "title title"
     "ribbon summary";
-  justify-content: space-between;
+  justify-content: center;
+  column-gap: calc(var(--offset-base-size) * 15);
 }
 .header {
   grid-area: title;
@@ -15,7 +16,6 @@
   width: 45vw;
   max-height: 65vh;
   overflow-y: scroll;
- 
 }
 .ribbon::-webkit-scrollbar {
   width: 8px;
@@ -26,9 +26,9 @@
   background-color: #8585ad;
 }
 .summary {
-    grid-area: summary;
-    width: 45vw;
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--offset-base-size) * 15);
-  }
+  grid-area: summary;
+  width: 45vw;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 15);
+}

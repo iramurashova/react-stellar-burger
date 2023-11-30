@@ -35,12 +35,12 @@ const OrderInfo: FC = () => {
   orderMatch =
     orders?.orders.find((order) => order.number.toString() === id) || null;
 
-  const returnIngredients = useCallback(() => {
+  const returnIngredients = () => {
     const newIngredients = Array.from(new Set(orderMatch?.ingredients));
     return newIngredients.map((ingredient) => {
       return ingredients?.find((item) => item?._id === ingredient);
     });
-  }, [orderMatch]);
+  };
   const returnIngredientsAmount = (id?: string) => {
     let ingredientsAmount = 0;
     const orderIngredient = ingredients?.find((item) => item?._id === id);
@@ -73,7 +73,11 @@ const OrderInfo: FC = () => {
   if (!orderMatch) return null;
 
   return (
-    <div className={`pl-10 pr-10 pb-10 ${styles.order_details}`}>
+    <div
+      className={`${
+        !background ? styles.full_order_details : styles.order_details
+      }`}
+    >
       <p
         className={`${
           !background ? styles.centeredHeader : styles.header

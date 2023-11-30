@@ -5,6 +5,7 @@ import { FC, MouseEventHandler } from "react";
 import { useAppDispatch } from "../../utils/hooks";
 
 const ProfilePage: FC = () => {
+  const location = useLocation();
   const setActive = ({ isActive }: { isActive: boolean }) => {
     return `${styles.link} text_type_main-medium ${
       isActive ? "text_color_primary" : "text_color_inactive"
@@ -33,7 +34,9 @@ const ProfilePage: FC = () => {
         <p
           className={`text text_type_main-default text_color_inactive ${styles.description}`}
         >
-          В этом разделе вы можете изменить свои персональные данные
+          {location.pathname.includes("/orders")
+            ? "В этом разделе вы можете просмотреть свою историю заказов"
+            : " В этом разделе вы можете изменить свои персональные данные"}
         </p>
       </div>
       <Outlet />

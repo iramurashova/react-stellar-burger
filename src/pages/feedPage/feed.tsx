@@ -15,19 +15,20 @@ const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   useEffect(() => {
-   location.pathname.startsWith("/feed") && dispatch(setWebsocketConnection(`${wssAdress}/orders/all`));
+    location.pathname.startsWith("/feed") &&
+      dispatch(setWebsocketConnection(`${wssAdress}/orders/all`));
     return () => {
-        dispatch(setWebsocketOffline());
-      };
+      dispatch(setWebsocketOffline());
+    };
   }, []);
 
   return (
     <section className={`${styles.orders} pr-10 pl-10`}>
-      <h1 className={`text text_type_main-large ${styles.header}`}>
+      <h1 className={`text text_type_main-large pb-4 ${styles.header}`}>
         Лента заказов
       </h1>
       <div className={styles.ribbon}>
-        <Orders isStatus={false}/>
+        <Orders isStatus={false} />
       </div>
       <div className={styles.summary}>
         <OrdersSummary />
