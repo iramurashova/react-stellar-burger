@@ -24,7 +24,7 @@ import {
   removeAllIngredients,
 } from "../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
 
-import { postOrderDetails } from "../../services/reducers/orderReducer/orderReducer";
+import { getOrderDetails } from "../../services/reducers/orderReducer/orderReducer";
 import {
   selectOrderIsError,
   selectOrderisLoading,
@@ -62,7 +62,7 @@ const BurgerConstructor:FC = () => {
   const onOpen = () => {
     if (user) {
       dispatch(
-        postOrderDetails({
+        getOrderDetails({
           ingredients: allIngredients.map((item) => item._id),
         })
       );

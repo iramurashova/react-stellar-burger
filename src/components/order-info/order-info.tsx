@@ -1,9 +1,8 @@
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import {
   selectIngredients,
-  selectOrderByNumber,
   selectOrders,
 } from "../../services/reducers/dataReducer/selector";
 import { TOrder } from "../../utils/types";
@@ -12,7 +11,7 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-info.module.css";
-import { fetchOrder } from "../../utils/api";
+import { fetchOrders } from "../../utils/api";
 
 const OrderInfo: FC = () => {
   const { id } = useParams();
@@ -26,11 +25,11 @@ const OrderInfo: FC = () => {
   const ingredients = useAppSelector(selectIngredients);
   useEffect(() => {
     if (location.pathname.startsWith("/profile") && !background) {
-      id && dispatch(fetchOrder(id));
+      id && dispatch(fetchOrders(id));
     } else if (location.pathname.startsWith("/feed") && !background) {
-      id && dispatch(fetchOrder(id));
+      id && dispatch(fetchOrders(id));
     }
-  }, [location.pathname]);
+  }, [background, dispatch, id, location.pathname]);
 
   orderMatch =
     orders?.orders.find((order) => order.number.toString() === id) || null;
@@ -46,9 +45,9 @@ const OrderInfo: FC = () => {
     const orderIngredient = ingredients?.find((item) => item?._id === id);
     orderIngredient?.type === "bun"
       ? (ingredientsAmount = 2)
-      : orderMatch?.ingredients.map((ingredientId) => {
-          if (ingredientId === id) ingredientsAmount++;
-        });
+      : orderMatch?.ingredients.forEach((ingredientId) => {
+        if (ingredientId === id) { ingredientsAmount++ };
+      });
     return ingredientsAmount;
   };
   const returnIngredientsPrice = () => {

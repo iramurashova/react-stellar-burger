@@ -33,3 +33,10 @@ export type TOrder = {
   updatedAt: string;
   number: number;
 };
+export type TNumberOrder = {
+  name: string;
+  order: {
+    number: number;
+  };
+  success: boolean;
+};

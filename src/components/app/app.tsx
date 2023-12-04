@@ -22,6 +22,7 @@ import { useAppDispatch } from "../../utils/hooks";
 import FeedPage from "../../pages/feedPage/feed";
 import OrderInfo from "../order-info/order-info";
 import OrderPage from "../../pages/order/order";
+import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,9 +31,10 @@ function App() {
   const background = location.state && location.state.background;
   useEffect(() => {
     dispatch(checkUserAuth());
-  }, []);
+  }, [dispatch]);
 
   const onClose = () => {
+    dispatch(closeModal());
     navigate(-1);
   };
   return (
