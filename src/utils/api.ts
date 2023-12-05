@@ -64,14 +64,17 @@ const fetchWithRefresh = async (url: string, options: TRequestOptions) => {
     const res = await fetch(url, options);
     return await checkResponse(res);
   } catch (err: any) {
+    console.log(err);
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
+      console.log(refreshData);
+ 
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
       setCookie("refreshToken", refreshData.refreshToken);
       setCookie("accessToken", refreshData.accessToken);
-      options.headers.authorization = refreshData.accessToken;
+      options.headers.authorization = refreshData.accessToken; 
       const res = await fetch(url, options);
       return await checkResponse(res);
     } else {

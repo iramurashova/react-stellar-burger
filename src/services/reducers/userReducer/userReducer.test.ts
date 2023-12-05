@@ -25,7 +25,7 @@ describe("Testing userSlice", () => {
         type: "auth/register/rejected",
         payload: error,
       })
-    ).toEqual({ ...initialUserState, error: "error one" });
+    ).toEqual({ ...initialUserState,  isAuthChecked: true, error: "error one" });
   });
   test("User login success", () => {
     expect(

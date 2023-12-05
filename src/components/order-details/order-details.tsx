@@ -12,7 +12,7 @@ function OrderDetails() {
 
   return (
     <>
-      <h2 className={`text text_type_digits-large mb-8 ${styles.number}`}>
+      <h2 className={`${styles.number} text text_type_digits-large mb-8`}>
         {orderNumber}
       </h2>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>

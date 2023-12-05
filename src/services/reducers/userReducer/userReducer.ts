@@ -45,6 +45,7 @@ export const userSlice = createSlice({
       .addCase(
         fetchRegister.rejected, (state, action) => {
           state.error = action.payload;
+          state.isAuthChecked = true;
         })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.user = action.payload;

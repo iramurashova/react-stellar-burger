@@ -15,12 +15,11 @@ const FeedPage: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   useEffect(() => {
-    location.pathname.startsWith("/feed") &&
-      dispatch(setWebsocketConnection(`${wssAdress}/orders/all`));
+    dispatch(setWebsocketConnection(`${wssAdress}/orders/all`));
     return () => {
       dispatch(setWebsocketOffline());
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
     <section className={`${styles.orders} pr-10 pl-10`}>

@@ -45,18 +45,18 @@ function BurgerIngredients() {
 
   return (
     <>
-      <section className={styles.burger_ingredients_container}>
+      <section className={styles.container}>
         <h2 className="text text_type_main-large pb-5">Соберите бургер</h2>
 
         <Tabs current={current}  setCurrent= {setCurrent}/>
         <article
-          className={`${styles.ingredients} mt-10`}
+          className={`${styles.ingredients_list} mt-10`}
           onScroll={handleScroll}
         >
           <h3 className="text text_type_main-medium  pb-6" ref={oneRef}>
             Булки
           </h3>
-          <div className={`${styles.burger_ingredients} pl-4`}>
+          <div className={`${styles.ingredients} pl-4`}>
             {ingredients.map((ingredient:TIngredient) => {
               if (ingredient.type === "bun") {
                 return (
@@ -71,7 +71,7 @@ function BurgerIngredients() {
           <h3 className="text_type_main-medium pt-10 pb-6" ref={twoRef}>
             Соусы
           </h3>
-          <div className={`${styles.burger_ingredients} pl-4`}>
+          <div className={`${styles.ingredients} pl-4`}>
             {ingredients.map((ingredient:TIngredient) => {
               if (ingredient.type === "sauce") {
                 return (
@@ -87,7 +87,7 @@ function BurgerIngredients() {
           <h3 className="text_type_main-medium pt-10 pb-6" ref={threeRef}>
             Начинки
           </h3>
-          <div className={`${styles.burger_ingredients} pl-4`}>
+          <div className={`${styles.ingredients} pl-4`}>
             {ingredients.map((ingredient:TIngredient) => {
               if (ingredient.type === "main") {
                 return (

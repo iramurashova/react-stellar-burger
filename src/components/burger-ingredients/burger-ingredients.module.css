@@ -1,23 +1,23 @@
-.burger_ingredients_container {
+.container {
   max-width: 600px;
   width: 45%;
 }
 
-.ingredients {
+.ingredients_list {
   max-height: 55vh;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
 }
-.ingredients::-webkit-scrollbar {
+.ingredients_list::-webkit-scrollbar {
   width: 8px;
   background-color: #2f2f37;
 }
 
-.ingredients::-webkit-scrollbar-thumb {
+.ingredients_list::-webkit-scrollbar-thumb {
   background-color: #8585ad;
 }
-.burger_ingredients {
+.ingredients {
   max-width: 100%;
   display: grid;
   justify-content: center;

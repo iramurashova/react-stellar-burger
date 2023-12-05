@@ -66,13 +66,11 @@ function App() {
           >
             <Route index element={<MainPage />} />
             <Route path="orders" element={<HistoryPage />} />
+            <Route path="orders/:id" element={<OrderPage />} />
           </Route>
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="/feed/:id" element={<OrderPage />} />
-          <Route
-            path="profile/orders/:id"
-            element={<OnlyAuth component={<OrderPage />} />}
-          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
@@ -97,15 +95,13 @@ function App() {
           <Route
             path="profile/orders/:id"
             element={
-              <OnlyAuth
-                component={
+         
                   <Modal title="" handleClose={onClose}>
-                    <OrderPage />{" "}
+                    <OrderInfo />
                   </Modal>
                 }
               />
-            }
-          />
+      
         </Routes>
       )}
     </>

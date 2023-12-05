@@ -20,7 +20,6 @@ const OrderInfo: FC = () => {
   const background = location.state?.background;
 
   const orders = useAppSelector(selectOrders);
-
   let orderMatch: TOrder | null = null;
   const ingredients = useAppSelector(selectIngredients);
   useEffect(() => {
@@ -46,8 +45,10 @@ const OrderInfo: FC = () => {
     orderIngredient?.type === "bun"
       ? (ingredientsAmount = 2)
       : orderMatch?.ingredients.forEach((ingredientId) => {
-        if (ingredientId === id) { ingredientsAmount++ };
-      });
+          if (ingredientId === id) {
+            ingredientsAmount++;
+          }
+        });
     return ingredientsAmount;
   };
   const returnIngredientsPrice = () => {
@@ -70,7 +71,6 @@ const OrderInfo: FC = () => {
     return ingredientsPrice;
   };
   if (!orderMatch) return null;
-
   return (
     <div
       className={`${

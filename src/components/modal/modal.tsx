@@ -28,7 +28,7 @@ const Modal: FC<TModalProps> = ({ title, children, handleClose }) => {
   }, []);
   return createPortal(
     <>
-      <div className={`pl-10 pr-10 pb-10 ${styles.modal}`}>
+      <div className={`${styles.modal} pl-10 pr-10 pb-10 `}>
         <div className={`${styles.modal_header} mt-10`}>
           <h1 className={`${styles.title} text text_type_main-large`}>
             {title}

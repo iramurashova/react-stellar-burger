@@ -14,14 +14,13 @@ const HistoryPage: FC = () => {
   const location = useLocation();
   const accessToken = getCookie("accessToken")?.split("Bearer ")[1];
   useEffect(() => {
-    location.pathname.startsWith("/profile") &&
-      dispatch(
-        setWebsocketConnection(`${wssAdress}/orders?token=${accessToken}`)
-      );
+    dispatch(
+      setWebsocketConnection(`${wssAdress}/orders?token=${accessToken}`)
+    );
     return () => {
       dispatch(setWebsocketOffline());
     };
-  }, []);
+  }, [location.pathname]);
   return (
     <div className={`${styles.history}`}>
       <Orders isStatus={true} />

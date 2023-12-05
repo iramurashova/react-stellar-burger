@@ -102,7 +102,7 @@ const BurgerConstructor:FC = () => {
   return (
     <>
       <section
-        className={`'mt-15 pl-4' ${styles.section} ${
+        className={`${styles.section} mt-15 pl-4 ${
           isHover ? styles.section_empty : ""
         } `}
         ref={dropTarget}

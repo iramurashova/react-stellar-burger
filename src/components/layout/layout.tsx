@@ -14,14 +14,14 @@ import styles from "./layout.module.css";
 
 //redux
 import {
-  selectIsError,
-  selectIsLoading,
+  selectIngredientsIsError,
+  selectIngredientsIsLoading,
 } from "../../services/reducers/dataReducer/selector";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 const Layout:FC = () => {
-    const isLoading = useAppSelector(selectIsLoading);
-    const isError = useAppSelector(selectIsError);
+    const isLoading = useAppSelector(selectIngredientsIsLoading);
+    const isError = useAppSelector(selectIngredientsIsError);
   
     const dispatch = useAppDispatch();
     useEffect(() => {

@@ -6,9 +6,9 @@ export const selectIngredient = (store: RootStore) =>
   store.data.ingredientDetails.ingredient;
 export const selectIngredientById = (id?: string) => (store: RootStore) =>
   store.data.ingredientsFromApi.find((data) => data._id === id);
-export const selectIsLoading = (store: RootStore) =>
+export const selectIngredientsIsLoading = (store: RootStore) =>
   store.data.ingredientsIsLoading;
-export const selectIsError = (store: RootStore) =>
+export const selectIngredientsIsError = (store: RootStore) =>
   store.data.ingredientsIsError;
 export const selectAllIngredients = (store: RootStore) => {
   const ingredients = store.burgerConstructor.ingredients;
