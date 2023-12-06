@@ -1,4 +1,3 @@
-const testUrl = "http://localhost:3000/";
 const navBar = "[class^=app-header_nav]";
 const ingredientsSection = "[class^=burger-ingredients_container]";
 const ingredients = "[class^=burger-ingredients_ingredients]";
@@ -10,7 +9,7 @@ const close = "[class^=modal_close]";
 const orderNumber = "[class^=order-details_number]";
 describe("Testing burger constructor", () => {
   it("Test functional of burger-constructor page", () => {
-    cy.visit(testUrl);
+    cy.visit("/");
     cy.reload(true);
     cy.get(navBar).should("exist");
     cy.get(ingredientsSection).should("exist");
@@ -23,8 +22,9 @@ describe("Testing burger constructor", () => {
     cy.get(constructorSection).trigger("drop");
     cy.get(ingredient).eq(6).trigger("dragstart");
     cy.get(constructorSection).trigger("drop");
-    cy.get("button").contains("Оформить заказ").should("exist");
-    cy.get("button").contains("Оформить заказ").click();
+    cy.get("button").contains("Оформить заказ").as("createOrderButton");
+    cy.get("@createOrderButton").should("exist");
+    cy.get("@createOrderButton").click();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/login");
     });
@@ -34,13 +34,14 @@ describe("Testing burger constructor", () => {
     cy.get("input").first().type("troitskaya97@yandex.ru");
     cy.get("input").last().should("exist");
     cy.get("input").last().type("290597");
-    cy.get("button").contains("Войти").should("exist");
-    cy.get("button").contains("Войти").click();
+    cy.get("button").contains("Войти").as("loginButton");
+    cy.get("@loginButton").should("exist");
+    cy.get("@loginButton").click();
     cy.location().should((location) => {
       expect(location.pathname).to.eq("/");
     });
-    cy.get("button").contains("Оформить заказ").should("exist");
-    cy.get("button").contains("Оформить заказ").click();
+    cy.get("@createOrderButton").should("exist");
+    cy.get("@createOrderButton").click();
 
     cy.get(modal).should("exist");
     cy.get(close).should("exist");

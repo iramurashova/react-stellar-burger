@@ -1,7 +1,7 @@
 // system
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useAppSelector } from "../../utils/hooks";
+import { TIngredient, TVoidWithoutParams } from "../../utils/types";
 //redux
 import { selectIngredients } from "../../services/reducers/dataReducer/selector";
 
@@ -11,16 +11,15 @@ import Tabs from "./tabs/tabs";
 
 // styles
 import styles from "./burger-ingredients.module.css";
-import { TIngredient, TVoidWithoutParams } from "../../utils/types";
 
 function BurgerIngredients() {
   const [current, setCurrent] = useState("one");
-  const ingredients = useSelector(selectIngredients) as Array<TIngredient>;
+  const ingredients = useAppSelector(selectIngredients);
   const oneRef = useRef<HTMLHeadingElement>(null);
   const twoRef = useRef<HTMLHeadingElement>(null);
   const threeRef = useRef<HTMLHeadingElement>(null);
 
-  const handleScroll:TVoidWithoutParams = () => {
+  const handleScroll: TVoidWithoutParams = () => {
     const result = [
       {
         name: "one",
@@ -35,7 +34,7 @@ function BurgerIngredients() {
         coords: threeRef.current?.getBoundingClientRect().top,
       },
     ]
-      .filter((el) =>el.coords && el.coords > 0)
+      .filter((el) => el.coords && el.coords > 0)
       .sort((a, b) => Number(a.coords) - Number(b.coords));
 
     if (result.length) {
@@ -48,7 +47,7 @@ function BurgerIngredients() {
       <section className={styles.container}>
         <h2 className="text text_type_main-large pb-5">Соберите бургер</h2>
 
-        <Tabs current={current}  setCurrent= {setCurrent}/>
+        <Tabs current={current} setCurrent={setCurrent} />
         <article
           className={`${styles.ingredients_list} mt-10`}
           onScroll={handleScroll}
@@ -57,7 +56,7 @@ function BurgerIngredients() {
             Булки
           </h3>
           <div className={`${styles.ingredients} pl-4`}>
-            {ingredients.map((ingredient:TIngredient) => {
+            {ingredients.map((ingredient: TIngredient) => {
               if (ingredient.type === "bun") {
                 return (
                   <BurgerIngredient
@@ -72,7 +71,7 @@ function BurgerIngredients() {
             Соусы
           </h3>
           <div className={`${styles.ingredients} pl-4`}>
-            {ingredients.map((ingredient:TIngredient) => {
+            {ingredients.map((ingredient: TIngredient) => {
               if (ingredient.type === "sauce") {
                 return (
                   <BurgerIngredient
@@ -88,7 +87,7 @@ function BurgerIngredients() {
             Начинки
           </h3>
           <div className={`${styles.ingredients} pl-4`}>
-            {ingredients.map((ingredient:TIngredient) => {
+            {ingredients.map((ingredient: TIngredient) => {
               if (ingredient.type === "main") {
                 return (
                   <BurgerIngredient

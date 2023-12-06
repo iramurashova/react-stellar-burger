@@ -10,14 +10,12 @@ import {
   setWebsocketOffline,
   setWebsocketOpen,
 } from "./dataReducer";
-import {
-  ingredientsArray,
-  fakeWsMessage,
-  fakeIngredient,
-} from "../../../utils/data";
+import { ingredientsArray, fakeWsMessage, fakeBun } from "../../../utils/data";
 describe("Testing dataSlice", () => {
   test("Return initialState", () => {
-    expect(dataReducer(undefined, { type: undefined })).toEqual(initialDataState);
+    expect(dataReducer(undefined, { type: undefined })).toEqual(
+      initialDataState
+    );
   });
   test("Loading ingredients process", () => {
     expect(
@@ -80,12 +78,10 @@ describe("Testing dataSlice", () => {
     });
   });
   test("Get ingredient details", () => {
-    expect(
-      dataReducer(initialDataState, getIngredientData(fakeIngredient))
-    ).toEqual({
+    expect(dataReducer(initialDataState, getIngredientData(fakeBun))).toEqual({
       ...initialDataState,
       ingredientDetails: {
-        ingredient: fakeIngredient,
+        ingredient: fakeBun,
       },
     });
   });
@@ -105,7 +101,9 @@ describe("Testing dataSlice", () => {
     });
   });
   test("WS connecting", () => {
-    expect(dataReducer(initialDataState, setWebsocketConnection("url"))).toEqual({
+    expect(
+      dataReducer(initialDataState, setWebsocketConnection("url"))
+    ).toEqual({
       ...initialDataState,
       wsConnectionStatus: true,
       wsUrl: "url",

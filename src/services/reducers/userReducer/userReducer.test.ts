@@ -1,15 +1,13 @@
 import { fakeUser } from "../../../utils/data";
-import { TUser } from "./userReducer";
+import { TUser, setAuthChecked, setEmailChecked, setUser } from "./userReducer";
 import { userReducer, initialUserState } from "./userReducer";
 const error = { message: "error one" };
-
 describe("Testing userSlice", () => {
   test("Return initialState", () => {
     expect(userReducer(undefined, { type: undefined })).toEqual(
       initialUserState
     );
   });
-
   test("User registration success", () => {
     expect(
       userReducer(initialUserState, {
@@ -18,14 +16,14 @@ describe("Testing userSlice", () => {
       })
     ).toEqual({ ...initialUserState, isAuthChecked: true, user: fakeUser });
   });
-  test("User register error", () => {
+  test("User registration error", () => {
     const error = "error one";
     expect(
       userReducer(initialUserState, {
         type: "auth/register/rejected",
         payload: error,
       })
-    ).toEqual({ ...initialUserState,  isAuthChecked: true, error: "error one" });
+    ).toEqual({ ...initialUserState, isAuthChecked: true, error: "error one" });
   });
   test("User login success", () => {
     expect(
@@ -93,14 +91,14 @@ describe("Testing userSlice", () => {
       })
     ).toEqual({ ...initialUserState, error: "error one" });
   });
-  test("User forgot password success", () => {
+  test("User reset password success", () => {
     expect(
       userReducer(initialUserState, {
         type: "auth/resetPassword/fulfilled",
       })
     ).toEqual(initialUserState);
   });
-  test("User logout error", () => {
+  test("User reset password error", () => {
     const error = "error one";
     expect(
       userReducer(initialUserState, {
@@ -109,4 +107,19 @@ describe("Testing userSlice", () => {
       })
     ).toEqual({ ...initialUserState, error: "error one" });
   });
+  test ("Set user", () => {
+    expect(userReducer(initialUserState, setUser(fakeUser.user))).toEqual({
+      ...initialUserState, user: fakeUser.user
+    })
+  })
+  test ("Set auth checked", () => {
+    expect(userReducer(initialUserState, setAuthChecked(true))).toEqual({
+      ...initialUserState, isAuthChecked: true
+    })
+  })
+  test ("Set email checked", () => {
+    expect(userReducer(initialUserState, setEmailChecked(true))).toEqual({
+      ...initialUserState, isEmailChecked: true
+    })
+  })
 });
