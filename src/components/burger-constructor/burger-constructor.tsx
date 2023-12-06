@@ -46,24 +46,25 @@ import styles from "./burger-constructor.module.css";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../../services/reducers/userReducer/selector";
 import { TIngredient, TIngredientWithId } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 
 const BurgerConstructor:FC = () => {
-  const isOpen = useSelector(selectModalOpen) as boolean;
-  const ingredients = useSelector(selectBurgerIngredients) as TIngredientWithId[];
-  const bun = useSelector(selectBurgerBun) as TIngredientWithId;
-  const allIngredients = [...ingredients, bun] as TIngredientWithId[];
-  const isLoading = useSelector(selectOrderisLoading)  as boolean;
-  const isError = useSelector(selectOrderIsError)  as boolean;
-  const success = useSelector(selectSuccess)  as boolean;
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+  const isOpen = useAppSelector(selectModalOpen);
+  const ingredients = useAppSelector(selectBurgerIngredients);
+  const bun = useAppSelector(selectBurgerBun);
+  const allIngredients = bun?[...ingredients, bun] : ingredients ;
+  const isLoading = useAppSelector(selectOrderisLoading);
+  const isError = useAppSelector(selectOrderIsError)  as boolean;
+  const success = useAppSelector(selectSuccess)  as boolean;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
   const navigate = useNavigate();
   const onOpen = () => {
     if (user) {
       dispatch(
         getOrderDetails({
-          ingredients: allIngredients.map((item) => item._id),
+          ingredients: allIngredients.map((item) => item && item._id),
         })
       );
       !isError && dispatch(removeAllIngredients());
@@ -75,7 +76,7 @@ const BurgerConstructor:FC = () => {
   const onClose = () => {
     dispatch(closeModal());
   };
-  const typeOfModal = useSelector(selectTypeOfModal);
+  const typeOfModal = useAppSelector(selectTypeOfModal);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
