@@ -1,8 +1,8 @@
 // system
 import React, { FC, useMemo } from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 //redux
 
@@ -46,7 +46,6 @@ import styles from "./burger-constructor.module.css";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../../services/reducers/userReducer/selector";
 import { TIngredient, TIngredientWithId } from "../../utils/types";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 
 const BurgerConstructor:FC = () => {
