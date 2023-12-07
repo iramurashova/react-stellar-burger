@@ -53,7 +53,7 @@ describe("Testing burger constructor", () => {
 
 describe("Testing modal ingredients", () => {
   it("Test open and close ingredient modal", () => {
-    cy.visit(testUrl);
+    cy.visit("/");
     cy.reload(true);
     cy.get(ingredients).should("exist");
     cy.get(ingredient).eq(1).should("exist");
