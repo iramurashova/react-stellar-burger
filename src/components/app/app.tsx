@@ -22,6 +22,7 @@ import { useAppDispatch } from "../../utils/hooks";
 import FeedPage from "../../pages/feedPage/feed";
 import OrderInfo from "../order-info/order-info";
 import OrderPage from "../../pages/order/order";
+import { closeModal } from "../../services/reducers/modalReducer/modalReducer";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -30,9 +31,10 @@ function App() {
   const background = location.state && location.state.background;
   useEffect(() => {
     dispatch(checkUserAuth());
-  }, []);
+  }, [dispatch]);
 
   const onClose = () => {
+    dispatch(closeModal());
     navigate(-1);
   };
   return (
@@ -64,13 +66,11 @@ function App() {
           >
             <Route index element={<MainPage />} />
             <Route path="orders" element={<HistoryPage />} />
+            <Route path="orders/:id" element={<OrderPage />} />
           </Route>
           <Route path="ingredients/:id" element={<IngredientPage />} />
           <Route path="/feed/:id" element={<OrderPage />} />
-          <Route
-            path="profile/orders/:id"
-            element={<OnlyAuth component={<OrderPage />} />}
-          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
@@ -95,15 +95,13 @@ function App() {
           <Route
             path="profile/orders/:id"
             element={
-              <OnlyAuth
-                component={
+         
                   <Modal title="" handleClose={onClose}>
-                    <OrderPage />{" "}
+                    <OrderInfo />
                   </Modal>
                 }
               />
-            }
-          />
+      
         </Routes>
       )}
     </>

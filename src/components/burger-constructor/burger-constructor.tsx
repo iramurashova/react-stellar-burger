@@ -2,6 +2,7 @@
 import React, { FC, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
+import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
 //redux
 
@@ -23,7 +24,7 @@ import {
   removeAllIngredients,
 } from "../../services/reducers/burgerConstructorReducer/burgerConstructorReducer";
 
-import { postOrderDetails } from "../../services/reducers/orderReducer/orderReducer";
+import { getOrderDetails } from "../../services/reducers/orderReducer/orderReducer";
 import {
   selectOrderIsError,
   selectOrderisLoading,
@@ -45,23 +46,23 @@ import styles from "./burger-constructor.module.css";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../../services/reducers/userReducer/selector";
 import { TIngredient, TIngredientWithId } from "../../utils/types";
-import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 
-const BurgerConstructor: FC = () => {
+
+const BurgerConstructor:FC = () => {
   const isOpen = useAppSelector(selectModalOpen);
   const ingredients = useAppSelector(selectBurgerIngredients);
   const bun = useAppSelector(selectBurgerBun);
-  const allIngredients = bun?[...ingredients, bun] : ingredients;
+  const allIngredients = bun?[...ingredients, bun] : ingredients ;
   const isLoading = useAppSelector(selectOrderisLoading);
-  const isError = useAppSelector(selectOrderIsError);
-  const success = useAppSelector(selectSuccess);
+  const isError = useAppSelector(selectOrderIsError)  as boolean;
+  const success = useAppSelector(selectSuccess)  as boolean;
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const navigate = useNavigate();
   const onOpen = () => {
     if (user) {
       dispatch(
-        postOrderDetails({
+        getOrderDetails({
           ingredients: allIngredients.map((item) => item && item._id),
         })
       );
@@ -79,10 +80,7 @@ const BurgerConstructor: FC = () => {
   const [{ isHover }, dropTarget] = useDrop({
     accept: "ingredient",
     drop: (ingredient: TIngredient) => {
-      const newElement: TIngredientWithId = {
-        ...ingredient,
-        _customId: uuidv4(),
-      };
+      const newElement:TIngredientWithId = { ...ingredient, _customId: uuidv4() };
       dispatch(addIngredient(newElement));
     },
     collect: (monitor) => ({
@@ -90,8 +88,8 @@ const BurgerConstructor: FC = () => {
     }),
   });
   const amount = useMemo(() => {
-    const sumIngredients: number = ingredients.reduce(
-      (currentSum: number, currentIngredient: TIngredient) => {
+    const sumIngredients:number = ingredients.reduce(
+      (currentSum:number, currentIngredient:TIngredient) => {
         return currentSum + currentIngredient.price;
       },
       0
@@ -104,7 +102,7 @@ const BurgerConstructor: FC = () => {
   return (
     <>
       <section
-        className={`'mt-15 pl-4' ${styles.section} ${
+        className={`${styles.section} mt-15 pl-4 ${
           isHover ? styles.section_empty : ""
         } `}
         ref={dropTarget}
@@ -123,7 +121,7 @@ const BurgerConstructor: FC = () => {
           )}
           {ingredients.length > 0 && (
             <ul className={`${styles.middle_list} pr-2`}>
-              {ingredients.map((ingredient, index: number) => (
+              {ingredients.map((ingredient, index:number) => (
                 <BurgerConstructorItem
                   key={ingredient._customId}
                   ingredient={ingredient}

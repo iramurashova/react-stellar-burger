@@ -1,18 +1,17 @@
 .inputs {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: calc(var(--offset-base-size) * 6);
-  }
-  .link {
-    text-decoration: none;
-  
-  }
-  .footer {
-    display: flex;
-    gap: calc(var(--offset-base-size) * 5);
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: calc(var(--offset-base-size) * 6);
+  width: 60vw;
+}
+.link {
+  text-decoration: none;
+}
+.footer {
+  display: flex;
+  gap: calc(var(--offset-base-size) * 5);
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}

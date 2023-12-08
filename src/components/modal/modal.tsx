@@ -11,17 +11,14 @@ import styles from "./modal.module.css";
 const modal = document.getElementById("modal-root") as HTMLElement;
 
 type TModalProps = {
-  title: string,
-  children: ReactNode,
-  handleClose: ()=>void
+  title: string;
+  children: ReactNode;
+  handleClose: () => void;
+};
 
-}
-
-const Modal:FC<TModalProps> = ({ title, children, handleClose }) => {
-
-
+const Modal: FC<TModalProps> = ({ title, children, handleClose }) => {
   useEffect(() => {
-    const handleEscape = (event:KeyboardEvent) => {
+    const handleEscape = (event: KeyboardEvent) => {
       event.key === "Escape" && handleClose();
     };
     document.addEventListener("keydown", handleEscape);
@@ -31,8 +28,8 @@ const Modal:FC<TModalProps> = ({ title, children, handleClose }) => {
   }, []);
   return createPortal(
     <>
-      <div className={styles.modal}>
-        <div className={`${styles.modal_header} mt-10 ml-10 mr-10`}>
+      <div className={`${styles.modal} pl-10 pr-10 pb-10 `}>
+        <div className={`${styles.modal_header} mt-10`}>
           <h1 className={`${styles.title} text text_type_main-large`}>
             {title}
           </h1>
@@ -44,9 +41,8 @@ const Modal:FC<TModalProps> = ({ title, children, handleClose }) => {
       </div>
       <ModalOverlay handleClose={handleClose} />
     </>,
-     modal
+    modal
   );
-}
-
+};
 
 export default Modal;

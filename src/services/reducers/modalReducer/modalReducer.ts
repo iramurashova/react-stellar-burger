@@ -4,13 +4,13 @@ type TModalState = {
   isOpen: boolean,
   typeOfModal: string | null,
 }
-const initialState:TModalState = {
+export const initialModalState:TModalState = {
   isOpen: false,
   typeOfModal: null,
 };
 const modalSlice = createSlice({
   name: "modal",
-  initialState,
+  initialState: initialModalState,
   reducers: {
     openModal: (state, action:PayloadAction<string | null>) => {
       state.isOpen = true;

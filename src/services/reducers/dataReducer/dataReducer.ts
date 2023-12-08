@@ -1,11 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchIngredients, fetchOrder } from "../../../utils/api";
+import { fetchIngredients, fetchOrders } from "../../../utils/api";
 import { TIngredient, TOrders } from "../../../utils/types";
 
 type TDataState = {
   ingredientsFromApi: TIngredient[];
-  isLoading: boolean;
-  isError: boolean;
+  ingredientsIsLoading: boolean;
+  ingredientsIsError: boolean;
   ingredientDetails: {
     ingredient: TIngredient | null;
   };
@@ -15,10 +15,10 @@ type TDataState = {
   wsError: string | null;
   orders: TOrders | null;
 };
-const initialState: TDataState = {
+export const initialDataState: TDataState = {
   ingredientsFromApi: [],
-  isLoading: false,
-  isError: false,
+  ingredientsIsLoading: false,
+  ingredientsIsError: false,
   ingredientDetails: {
     ingredient: null,
   },
@@ -36,7 +36,7 @@ export const getIngredientsData = createAsyncThunk(
 
 const dataSlice = createSlice({
   name: "data",
-  initialState,
+  initialState: initialDataState,
   reducers: {
     getIngredientData: (state, action: PayloadAction<TIngredient>) => {
       state.ingredientDetails.ingredient = action.payload;
@@ -48,7 +48,7 @@ const dataSlice = createSlice({
       state.wsOpen = action.payload;
       state.wsError = null;
     },
-    setWebsocketClose: (state, action: PayloadAction<boolean>) => {
+    setWebsocketClose: (state) => {
       state.wsOpen = false;
       state.wsUrl = "";
       state.orders = null;
@@ -74,19 +74,19 @@ const dataSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getIngredientsData.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
+        state.ingredientsIsLoading = true;
+        state.ingredientsIsError = false;
       })
       .addCase(getIngredientsData.fulfilled, (state, action) => {
         state.ingredientsFromApi = action.payload;
-        state.isLoading = false;
-        state.isError = false;
+        state.ingredientsIsLoading = false;
+        state.ingredientsIsError = false;
       })
       .addCase(getIngredientsData.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
+        state.ingredientsIsLoading = false;
+        state.ingredientsIsError = true;
       })
-      .addCase(fetchOrder.fulfilled, (state, action) => {
+      .addCase(fetchOrders.fulfilled, (state, action) => {
         state.orders = action.payload;
       });
   },

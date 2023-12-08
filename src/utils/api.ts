@@ -5,7 +5,7 @@ import {
 } from "../services/reducers/userReducer/userReducer";
 import { domenAdress } from "./constants";
 import { deleteCookie, getCookie, setCookie } from "./cookie";
-import { IValues, TIngredient, TOrders } from "./types";
+import { IValues,  TOrders } from "./types";
 import { AppDispatch } from "../services/store";
 type TRequestOptions = RequestInit & {
   headers: Record<string, string>;
@@ -64,14 +64,17 @@ const fetchWithRefresh = async (url: string, options: TRequestOptions) => {
     const res = await fetch(url, options);
     return await checkResponse(res);
   } catch (err: any) {
+    console.log(err);
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
+      console.log(refreshData);
+ 
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
       setCookie("refreshToken", refreshData.refreshToken);
       setCookie("accessToken", refreshData.accessToken);
-      options.headers.authorization = refreshData.accessToken;
+      options.headers.authorization = refreshData.accessToken; 
       const res = await fetch(url, options);
       return await checkResponse(res);
     } else {
@@ -81,20 +84,19 @@ const fetchWithRefresh = async (url: string, options: TRequestOptions) => {
 };
 
 export const fetchGetUser = () => {
-  return (dispatch: AppDispatch) => {
-    return fetchWithRefresh(`${domenAdress}/auth/user`, {
+  return async (dispatch: AppDispatch) => {
+    const res = await fetchWithRefresh(`${domenAdress}/auth/user`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         authorization: getCookie("accessToken") as string,
       },
-    }).then((res) => {
-      if (res.success) {
-        dispatch(setUser(res.user));
-      } else {
-        return Promise.reject("Ошибка данных с сервера");
-      }
     });
+    if (res.success) {
+      dispatch(setUser(res.user));
+    } else {
+      return Promise.reject("Ошибка данных с сервера");
+    }
   };
 };
 
@@ -186,7 +188,7 @@ export const fetchUpdateUser = createAsyncThunk(
       method: "PATCH",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        authorization: getCookie("accessToken") as string,
+        authorization: token as string,
       },
       body: JSON.stringify({
         name: values.name,
@@ -234,8 +236,8 @@ export const fetchResetPassword = createAsyncThunk(
     });
   }
 );
-export const fetchOrder = createAsyncThunk(
-  "data/fetchOrder",
+export const fetchOrders = createAsyncThunk(
+  "data/fetchOrders",
   async function (number: string) {
   const res = await request(`orders/${number}`, {
   method: "GET",

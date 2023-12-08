@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../../../utils/api";
 
-export const postOrderDetails = createAsyncThunk("order/post", postOrder);
+export const getOrderDetails = createAsyncThunk("order/post", postOrder);
 type TOrderState = {
-  order: { ingredients: string[] | null, number: number | null };
+  order: {  number: number | null };
   success: boolean;
   isLoading: boolean;
   isError: boolean;
 };
-const initialState: TOrderState = {
-  order: { ingredients: null, number: null },
+export const initialOrderState: TOrderState = {
+  order: {  number: null },
   success: false,
   isLoading: false,
   isError: false,
@@ -17,26 +17,25 @@ const initialState: TOrderState = {
 
 const orderSlice = createSlice({
   name: "orderDetails",
-  initialState,
+  initialState: initialOrderState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(postOrderDetails.pending, (state) => {
+      .addCase(getOrderDetails.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.success = false;
       })
-      .addCase(postOrderDetails.fulfilled, (state, action) => {
+      .addCase(getOrderDetails.fulfilled, (state, action) => {
         state.isLoading = false;
         state.order = action.payload.order;
         state.isError = false;
         state.success = action.payload.success;
       })
-      .addCase(postOrderDetails.rejected, (state, action) => {
+      .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.success = false;
         state.isError = true;
-        console.error(action.error);
       });
   },
 });

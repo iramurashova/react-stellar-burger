@@ -1,9 +1,8 @@
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../utils/hooks";
 import {
   selectIngredients,
-  selectOrderByNumber,
   selectOrders,
 } from "../../services/reducers/dataReducer/selector";
 import { TOrder } from "../../utils/types";
@@ -12,7 +11,7 @@ import {
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-info.module.css";
-import { fetchOrder } from "../../utils/api";
+import { fetchOrders } from "../../utils/api";
 
 const OrderInfo: FC = () => {
   const { id } = useParams();
@@ -21,33 +20,34 @@ const OrderInfo: FC = () => {
   const background = location.state?.background;
 
   const orders = useAppSelector(selectOrders);
-
   let orderMatch: TOrder | null = null;
   const ingredients = useAppSelector(selectIngredients);
   useEffect(() => {
     if (location.pathname.startsWith("/profile") && !background) {
-      id && dispatch(fetchOrder(id));
+      id && dispatch(fetchOrders(id));
     } else if (location.pathname.startsWith("/feed") && !background) {
-      id && dispatch(fetchOrder(id));
+      id && dispatch(fetchOrders(id));
     }
-  }, [location.pathname]);
+  }, [background, dispatch, id, location.pathname]);
 
   orderMatch =
     orders?.orders.find((order) => order.number.toString() === id) || null;
 
-  const returnIngredients = useCallback(() => {
+  const returnIngredients = () => {
     const newIngredients = Array.from(new Set(orderMatch?.ingredients));
     return newIngredients.map((ingredient) => {
       return ingredients?.find((item) => item?._id === ingredient);
     });
-  }, [orderMatch]);
+  };
   const returnIngredientsAmount = (id?: string) => {
     let ingredientsAmount = 0;
     const orderIngredient = ingredients?.find((item) => item?._id === id);
     orderIngredient?.type === "bun"
       ? (ingredientsAmount = 2)
-      : orderMatch?.ingredients.map((ingredientId) => {
-          if (ingredientId === id) ingredientsAmount++;
+      : orderMatch?.ingredients.forEach((ingredientId) => {
+          if (ingredientId === id) {
+            ingredientsAmount++;
+          }
         });
     return ingredientsAmount;
   };
@@ -71,9 +71,12 @@ const OrderInfo: FC = () => {
     return ingredientsPrice;
   };
   if (!orderMatch) return null;
-
   return (
-    <div className={`pl-10 pr-10 pb-10 ${styles.order_details}`}>
+    <div
+      className={`${
+        !background ? styles.full_order_details : styles.order_details
+      }`}
+    >
       <p
         className={`${
           !background ? styles.centeredHeader : styles.header

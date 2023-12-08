@@ -51,7 +51,7 @@ const BurgerIngredient: FC<TBurgerIngredientProps>= ({ ingredient }) => {
     <Link
     state = {{background: location}}
     to={`ingredients/${ingredient._id}`}
-      className={`text_color_primary ${styles.burger_ingredient}`}
+      className={`${styles.ingredient} text_color_primary `}
       key={ingredient._id}
       onClick={onOpen}
       ref={dragRef}

@@ -7,23 +7,23 @@ import {
   fetchResetPassword,
   fetchUpdateUser,
 } from "../../../utils/api";
-type TUser = { name: string; email: string } | null
+export type TUser = { name: string; email: string } | null
 type TInitialState = {
   user: TUser;
   isAuthChecked: boolean;
-  error: {} | null;
+  error:string | unknown;
   isEmailChecked: boolean;
 };
-const initialState: TInitialState = {
+export const initialUserState: TInitialState = {
   user: null,
   isAuthChecked: false,
-  error: null,
+  error: "",
   isEmailChecked: false,
 };
 
 export const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: initialUserState,
   reducers: {
     setAuthChecked: (state, action:PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
@@ -40,33 +40,53 @@ export const userSlice = createSlice({
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
-        state.error = null;
+        state.error = "";
       })
+      .addCase(
+        fetchRegister.rejected, (state, action) => {
+          state.error = action.payload;
+          state.isAuthChecked = true;
+        })
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
-        state.error = null;
+        state.error = "";
       })
+      .addCase(
+        fetchLogin.rejected, (state, action) => {
+          state.error = action.payload;
+        })
       .addCase(fetchLogout.fulfilled, (state) => {
         state.user = null;
-        state.error = null;
+        state.error = "";
       })
+      .addCase(
+        fetchLogout.rejected, (state, action) => {
+          state.error = action.payload;
+        })
       .addCase(fetchUpdateUser.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.error = null;
+        state.isAuthChecked = true;
+        state.error = "";
       })
+      .addCase(
+        fetchUpdateUser.rejected, (state, action) => {
+          state.error = action.payload;
+        })
       .addCase(fetchForgotPassword.fulfilled, (state) => {
-        state.error = null;
+        state.error = "";
       })
+      .addCase(
+        fetchForgotPassword.rejected, (state, action) => {
+          state.error = action.payload;
+        })
       .addCase(fetchResetPassword.fulfilled, (state) => {
-        state.error = null;
+        state.error = "";
       })
-      .addMatcher(
-        (action) => action.type.endsWith("/rejected"),
-        (state, action) => {
-          state.error = action.error.message;
-        }
-      );
+      .addCase(
+        fetchResetPassword.rejected, (state, action) => {
+          state.error = action.payload;
+        })
   },
 });
 
